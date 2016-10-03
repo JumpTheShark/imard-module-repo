@@ -1,4 +1,6 @@
-# imard_module_repo
+# imard module repository
+
+for now use dev branch only!
 
 to run the server, use node index.js
 available urls:
