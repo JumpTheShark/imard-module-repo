@@ -1,7 +1,7 @@
 # imard module repo
 
-to run the server, use node index.js
-available urls:
+to run the server, use <b>node index.js</b><p />
+<i>available urls:</i>
 
 /<p />
 /start  (just for testing, rubbish)<p />
