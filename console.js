@@ -14,5 +14,5 @@ exports.run = function(command, postData) {
 	}
 };
 
-exports.COMMAND_CLONE   = COMMAND_CLONE;
-exports.COMMAND_COMPILE = COMMAND_COMPILE;
+module.exports.COMMAND_CLONE   = COMMAND_CLONE;
+module.exports.COMMAND_COMPILE = COMMAND_COMPILE;

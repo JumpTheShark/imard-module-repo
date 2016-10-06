@@ -1,11 +1,13 @@
-var http = require("http");
-var url  = require("url");
-var exec = require("child_process").exec;
+const http = require("http");
+const url  = require("url");
+const exec = require("child_process").exec;
 
 function start(route, handle) {
 	function onRequest(request, response) {
-		var postData = "";
-		var pathname = url.parse(request.url).pathname;
+		"use strict";
+		
+		let postData = "";
+		const pathname = url.parse(request.url).pathname;
 		
 		console.log("Request for " + pathname + " received.");
 		request.setEncoding("utf8");
@@ -24,4 +26,4 @@ function start(route, handle) {
 	console.log("Server has started.");
 }
 
-exports.start = start;
+module.exports.start = start;
