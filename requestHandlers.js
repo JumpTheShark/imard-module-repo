@@ -48,7 +48,9 @@ function compile(response, postData) {
 	response.end();
 }
 
-module.exports.start   = start;
-module.exports.upload  = upload;
-module.exports.clone   = clone;
-module.exports.compile = compile;
+exports = module.exports = {
+	start: start,
+	upload: upload,
+	clone: clone,
+	compile : compile
+};

@@ -32,6 +32,7 @@
     "sinon": "^1.17.6"
   },
   "dependencies": {
+    "express": "^4.14.0",
     "nodegit": "^0.16.0"
   }
 }

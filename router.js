@@ -11,4 +11,6 @@ function route(handle, pathname, response, postData) {
 	}
 }
 
-module.exports.route = route;
+exports = module.exports = {
+	route: route
+};
