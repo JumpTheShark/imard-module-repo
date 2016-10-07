@@ -5,7 +5,7 @@
 const COMMAND_CLONE   = "git clone";
 const COMMAND_COMPILE = "compile";
 
-exports.run = function(command, postData) {
+function run(command, postData) {
 	switch (command) {
 		case COMMAND_CLONE:
 			return false;
@@ -15,6 +15,7 @@ exports.run = function(command, postData) {
 };
 
 exports = module.exports = {
+	run: run,
 	COMMAND_CLONE: COMMAND_CLONE,
 	COMMAND_COMPILE: COMMAND_COMPILE
 };
