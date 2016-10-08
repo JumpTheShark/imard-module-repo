@@ -1,10 +1,17 @@
 # imard module repo
 
-to run the server, use <b>node index.js</b><p />
-<i>available urls:</i>
+To go to the source, install and run the server, use respectively
 
-/<p />
-/start  (just for testing, rubbish)<p />
-/upload (just for testing, rubbish)<p />
-/clone<p />
-/compile
+<pre><code>
+cd &lt;sourcename&gt;
+npm install
+npm start
+</code></pre>
+<i>Available urls:</i>
+<pre><code>
+/                   [GET]
+/start (equal to /) [GET]
+/clone-redirect     [POST]
+/clone              [PUT]
+/compile            [POST]
+</code></pre>
