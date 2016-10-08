@@ -2,9 +2,9 @@
   "name": "imard_module_repo",
   "version": "1.0.0",
   "description": "imard module repository for cloning, building and saving to the CDN all modules",
-  "main": "index.js",
+  "main": "server/index.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "node server/index.js"
   },
   "repository": {
     "type": "git",
