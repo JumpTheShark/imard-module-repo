@@ -7,9 +7,12 @@ function start(route, handle) {
 		"use strict";
 		
 		let postData = "";
-		const pathname = url.parse(request.url).pathname;
 		
-		console.log("Request for " + pathname + " received.");
+		const method = request.method;
+		const parsed = url.parse(request.url);
+		const pathname = parsed.pathname;
+		const params = parsed.query;
+		
 		request.setEncoding("utf8");
 		
 		request.addListener("data", function(postDataChunk) {
@@ -18,7 +21,7 @@ function start(route, handle) {
 		});
 		
 		request.addListener("end", function() {
-			route(handle, pathname, response, postData);
+			route(handle, method, pathname, response, params, postData);
 		});
 	};
 	
@@ -27,5 +30,5 @@ function start(route, handle) {
 }
 
 exports = module.exports = {
-	start: start
+	start : start
 };

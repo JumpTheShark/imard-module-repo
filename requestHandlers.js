@@ -1,56 +1,58 @@
-const querystring = require("querystring");
-const consoleExec = require('./console');
+"use strict";
 
-function start(response, postData) {
-	console.log("Request handler 'start' was called.");
-	
+const querystring = require("querystring");
+const consoleExec = require("./console");
+const request     = require("request");
+
+function start(response) {
 	const body = '<html>' +
 	             '<head>' +
 	             '<meta http-equiv="Content-Type" content="text/html; ' +
 		     'charset=UTF-8" />' +
 		     '</head>' +
 		     '<body>' +
-		     '<form action="/upload" method="post">' +
+		     '<form action="/clone-redirect" method="post">' +
 		     '<textarea name="text" rows="20" cols="60"></textarea>' +
-		     '<input type="submit" value="Submit text" />' +
+		     '<input type="submit" value="Clone repo" />' +
 		     '</form>' +
 		     '</body>' +
 		     '</html>';
 	
 	response.writeHead(200, {"Content-Type" : "text/html"});
-	response.write(body);
-	response.end();
+	response.end(body);
 }
 
-function upload(response, postData) {
-	console.log("Request handler 'upload' was called.");
-	
-	response.writeHead(200, {"Content-Type" : "text/plain"});
-	response.write("You have sent the text: " + querystring.parse(postData).text);
-	response.end();
+function cloneRedirect(response, postData) {
+	request({
+		uri: "http://localhost:8888/clone",
+		qs: {link : querystring.parse(postData).text},
+		method: "PUT",
+		timeout: 10000
+	}, function(err, resp, body) {		
+		response.writeHead(resp.statusCode, resp.headers);
+		response.end(resp.body);
+	});
 }
 
-function clone(response, postData) {
-	console.log("Request handler 'clone' was called.");
+function clone(response, params) {
+	let link = querystring.parse(params).link;
 	
-	const isEligible = consoleExec.run(consoleExec.COMMAND_CLONE, querystring.parse(postData).text);
+	const isEligible = consoleExec.run(consoleExec.COMMAND_CLONE, link);
 	
 	response.writeHead(200, {"Content-Type" : "text/plain"});
-	response.write(isEligible + "");
-	response.end();
+	response.end(isEligible + "");
 }
 
 function compile(response, postData) {
-	console.log("Request handler 'compile' was called.");
-
+	const isCompiled = consoleExec.run(consoleExec.COMMAND_COMPILE, postData);
+	
 	response.writeHead(200, {"Content-Type" : "text/plain"});
-	response.write(consoleExec.run(consoleExec.COMMAND_COMPILE, postData));
-	response.end();
+	response.end(isCompiled + "");
 }
 
 exports = module.exports = {
-	start: start,
-	upload: upload,
-	clone: clone,
-	compile : compile
+	start         : start,
+	cloneRedirect : cloneRedirect,
+	clone         : clone,
+	compile       : compile
 };
