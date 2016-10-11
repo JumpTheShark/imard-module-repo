@@ -8,14 +8,12 @@ function clone(response, params) {
 	    isEligible = false;
 	
 	git.Clone(link, "test_repo").then(
-		function(repository) {
+		repository => {
 			isEligible = true;
-			console.log("Repository has been cloned.);
+			console.log("Repository has been cloned.");
 		},
 		
-		function(error) {
-			console.log("Repository has not been cloned. " + error + ".");
-		}
+		error => console.log("Repository has not been cloned. " + error + ".")
 	);
 	
 	response.writeHead(200, {"Content-Type" : "text/plain"});
