@@ -4,8 +4,8 @@
 
 "use strict";
 
-const COMMAND_CLONE   = "git clone";
-const COMMAND_COMPILE = "compile";
+const COMMAND_CLONE   = "git clone",
+      COMMAND_COMPILE = "compile";
 
 function run(command, data) {
 	let res;
