@@ -30,7 +30,7 @@ function clone(response, params) {
 				}
 				else {
 					response.writeHead(400, { "Content-Type" : "text/plain" });
-					outString += "compiled: false\n";
+					outString += "compiled: false" + (body == null ? "\n" : " (" + body + ")\n");
 				}
 				
 				response.end(outString);
@@ -42,7 +42,7 @@ function clone(response, params) {
 			
 			response.writeHead(400, { "Content-Type" : "text/plain" });
 			
-			outString += "cloned: false\n";
+			outString += "cloned: false (" + error + ")\n";
 			response.end(outString);
 		}
 	);
