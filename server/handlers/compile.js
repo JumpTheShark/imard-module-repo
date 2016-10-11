@@ -1,10 +1,6 @@
-const consoleExec = require("../console");
-
 function compile(response, postData) {
-	const isCompiled = consoleExec.run(consoleExec.COMMAND_COMPILE, postData);
-	
-	response.writeHead(200, {"Content-Type" : "text/plain"});
-	response.end(isCompiled + "");
+	response.writeHead(400, {"Content-Type" : "text/plain"});
+	response.end( "not supported yet." );
 }
 
 exports = module.exports = {
