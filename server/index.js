@@ -1,6 +1,6 @@
-const server          = require("./server");
-const router          = require("./router");
-const requestHandlers = require("./requestHandlers");
+const server          = require("./server"),
+      router          = require("./router"),
+      requestHandlers = require("./handlers/requestHandlers");
 
 const handle = {
 	get:  {},
@@ -15,3 +15,7 @@ handle["put"] ["/clone"]          = requestHandlers.clone;
 handle["post"]["/compile"]        = requestHandlers.compile;
 
 server.start(router.route, handle);
+
+exports = module.exports = {
+//test|        	handle : handle //$test$
+}

@@ -1,19 +1,20 @@
-const http = require("http");
-const url  = require("url");
-const exec = require("child_process").exec;
+"use strict";
+
+const http = require("http"),
+      url  = require("url"),
+      exec = require("child_process").exec;
+
+const PORT = 8888;
 
 function start(route, handle) {
-	function onRequest(request, response) {
-		"use strict";
-		
+	http.createServer((request, response) => {
 		let postData = "";
-		
-		const method = request.method;
-		const parsed = url.parse(request.url);
-		const pathname = parsed.pathname;
-		const params = parsed.query;
-		
 		request.setEncoding("utf8");
+		
+		const method = request.method,
+	      	parsed = url.parse(request.url),
+	      	pathname = parsed.pathname,
+	      	params = parsed.query;
 		
 		request.addListener("data", function(postDataChunk) {
 			postData += postDataChunk;
@@ -23,12 +24,12 @@ function start(route, handle) {
 		request.addListener("end", function() {
 			route(handle, method, pathname, response, params, postData);
 		});
-	};
+	}).listen(PORT);
 	
-	http.createServer(onRequest).listen(8888);
-	console.log("Server has started.");
+	console.log("Server has started on the port " + PORT + ".");
 }
 
 exports = module.exports = {
-	start : start
+	start : start,
+//test|    	PORT  : PORT //$test$
 };
