@@ -39,3 +39,6 @@ jspm_packages
 # IntellijIDEA project folder and files
 .idea/
 *.iml
+
+# JSDOC output folder
+out

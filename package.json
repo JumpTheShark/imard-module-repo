@@ -28,16 +28,17 @@
   },
   "homepage": "https://github.com/JumpTheShark/imard-module-repo#readme",
   "devDependencies": {
-    "chai"              : "^3.5.0",
-    "istanbul"          : "^0.4.5",
-    "mocha"             : "^3.1.0",
-    "recursive-readdir" : "^2.1.0",
-    "sinon"             : "^1.17.6",
-    "supertest"         : "^2.0.0"
+    "chai": "^3.5.0",
+    "eslint": "^3.7.1",
+    "istanbul": "^0.4.5",
+    "mocha": "^3.1.0",
+    "recursive-readdir": "^2.1.0",
+    "sinon": "^1.17.6",
+    "supertest": "^2.0.0"
   },
   "dependencies": {
-    "express" : "^4.14.0",
-    "nodegit" : "^0.16.0",
-    "request" : "^2.75.0"
+    "express": "^4.14.0",
+    "nodegit": "^0.16.0",
+    "request": "^2.75.0"
   }
 }
