@@ -1,6 +1,7 @@
 "use strict";
 
-const fs = require("fs");
+const fs         = require("fs"),
+      readDirRec = require("recursive-readdir");
 
 const MARKER           = "//$test$",
       MARKER_COMMENTED = "//test| ",
@@ -25,7 +26,7 @@ function doWithContent(root, func) {
 }
 
 function doWithFiles(root, func) {
-	fs.readdir(root, (error, filePaths) => { // TODO not only in the root folder
+	readDirRec(root, (error, filePaths) => { // TODO not only in the root folder
 		if (error != null) {
 			console.log("error: " + error);
 			return;
@@ -37,9 +38,6 @@ function doWithFiles(root, func) {
 		
 		if (root.indexOf("/", root.length - 1) == -1)
 			root += "/";
-		
-		for (let i = 0; i < filePaths.length; i++)
-			filePaths[i] = root + filePaths[i];
 		
 		func(filePaths);
 	});

@@ -1,17 +1,17 @@
 {
-  "name":        "imard_module_repo",
-  "version":     "1.0.0",
+  "name": "imard_module_repo",
+  "version": "1.0.0",
   "description": "imard module repository for cloning, building and saving to the CDN all modules",
-  "main":        "server/index.js",
+  "main": "server/index.js",
   "scripts": {
-    "start":    "node server/index.js",
-    "pretest":  "node self_modules/recourse/toggleTest.js",
+    "start": "node server/index.js",
+    "pretest": "node self_modules/recourse/toggleTest.js",
     "posttest": "node self_modules/recourse/toggleProduction.js",
-    "test":     "istanbul cover --report html _mocha -- --recursive -R spec test/"
+    "test": "istanbul cover --report html _mocha -- --recursive -R spec test/"
   },
   "repository": {
     "type": "git",
-    "url":  "git+https://github.com/JumpTheShark/imard-module-repo.git"
+    "url": "git+https://github.com/JumpTheShark/imard-module-repo.git"
   },
   "keywords": [
     "imard",
@@ -20,23 +20,24 @@
   "bin": {
     "add-module": "~/test_js.js"
   },
-  "author":  "Evgeny GlaDos Savelyev",
+  "author": "Evgeny GlaDos Savelyev",
   "license": "Apache-2.0",
   "bugs": {
-    "url":   "https://github.com/JumpTheShark/imard-module-repo/issues",
+    "url": "https://github.com/JumpTheShark/imard-module-repo/issues",
     "email": "glados28@yandex.ru"
   },
   "homepage": "https://github.com/JumpTheShark/imard-module-repo#readme",
   "devDependencies": {
-    "chai":      "^3.5.0",
-    "istanbul":  "^0.4.5",
-    "mocha":     "^3.1.0",
-    "sinon":     "^1.17.6",
-    "supertest": "^2.0.0"
+    "chai"              : "^3.5.0",
+    "istanbul"          : "^0.4.5",
+    "mocha"             : "^3.1.0",
+    "recursive-readdir" : "^2.1.0",
+    "sinon"             : "^1.17.6",
+    "supertest"         : "^2.0.0"
   },
   "dependencies": {
-    "express": "^4.14.0",
-    "nodegit": "^0.16.0",
-    "request": "^2.75.0"
+    "express" : "^4.14.0",
+    "nodegit" : "^0.16.0",
+    "request" : "^2.75.0"
   }
 }
