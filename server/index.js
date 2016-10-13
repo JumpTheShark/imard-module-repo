@@ -15,3 +15,7 @@ handle["put"] ["/clone"]          = requestHandlers.clone;
 handle["post"]["/compile"]        = requestHandlers.compile;
 
 server.start(router.route, handle);
+
+exports = module.exports = {
+//test|     	handle : handle //$test$
+}
