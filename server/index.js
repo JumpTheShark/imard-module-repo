@@ -1,3 +1,5 @@
+"use strict";
+
 const server          = require("./server"),
       router          = require("./router"),
       requestHandlers = require("./handlers/requestHandlers");
@@ -17,5 +19,5 @@ handle["post"]["/compile"]        = requestHandlers.compile;
 server.start(router.route, handle);
 
 exports = module.exports = {
-//test|        	handle : handle //$test$
+             	handle : handle //$test$
 }

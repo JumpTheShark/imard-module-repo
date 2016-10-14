@@ -1,14 +1,19 @@
+"use strict";
+
 const querystring = require("querystring"),
       request     = require("request");
 
-const REDIRECT_URL     = "http://localhost:8888/clone",
-      REDIRECT_TIMEOUT = 10000;
+const REDIRECT_URL            = "http://localhost:8888/clone",
+      REDIRECT_TIMEOUT        = 10000,
+      CONTENT_TYPE_TEXT_PLAIN = require("./requestHandlers").CONTENT_TYPE_TEXT_PLAIN,
+      STATUSCODE_BAD          = require("./requestHandlers").STATUSCODE_BAD,
+      PUT_STR                 = "PUT";
 
 function cloneRedirect(response, postData) {
 	request({
 		uri     : REDIRECT_URL,
 		qs      : { link : querystring.parse(postData).text },
-		method  : "PUT",
+		method  : PUT_STR,
 		timeout : REDIRECT_TIMEOUT
 	}, function(err, resp, body) {
 		if (resp != null) {		
@@ -16,7 +21,7 @@ function cloneRedirect(response, postData) {
 			response.end(resp.body);
 		}
 		else {
-			response.writeHead(400, {"Content-Type" : "text/plain"});
+			response.writeHead(STATUSCODE_BAD, CONTENT_TYPE_TEXT_PLAIN);
 			response.end(err + "");
 		}
 	});

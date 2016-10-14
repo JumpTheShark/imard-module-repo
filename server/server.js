@@ -2,7 +2,8 @@
 
 const http = require("http"),
       url  = require("url"),
-      exec = require("child_process").exec;
+      exec = require("child_process").exec,
+      log = require("../self_modules/logger/logger").log;
 
 const PORT = 8888;
 
@@ -18,7 +19,7 @@ function start(route, handle) {
 		
 		request.addListener("data", function(postDataChunk) {
 			postData += postDataChunk;
-			console.log("Received POST data chunk '" + postDataChunk + "'.");
+			log("Received POST data chunk '" + postDataChunk + "'.");
 		});
 		
 		request.addListener("end", function() {
@@ -26,10 +27,10 @@ function start(route, handle) {
 		});
 	}).listen(PORT);
 	
-	console.log("Server has started on the port " + PORT + ".");
+	log("Server has started on the port " + PORT + ".");
 }
 
 exports = module.exports = {
 	start : start,
-//test|    	PORT  : PORT //$test$
+         PORT  : PORT //$test$
 };

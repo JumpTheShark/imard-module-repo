@@ -1,31 +1,50 @@
+"use strict";
+
+const log = require("../self_modules/logger/logger").log;
+
+const CODE_NOT_FOUND          = 404,
+      NOT_FOUND_BODY_STR      = '404 Not found',
+      FUNCTION_STR            = 'function',
+      GET_STR                 = 'get',
+      POST_STR                = 'post',
+      PUT_STR                 = 'put',
+      CONTENT_TYPE_TEXT_PLAIN = { 'Content-Type' : 'text/plain' };
+
 function route(handle, method, pathname, response, params, postData) {
-	const displayPath = pathname + " [" + method + "]";
-	method = method.toLowerCase();
+	const displayPath = pathname + " [" + method + "]",
+	      methodIsDefined = method != undefined;
 	
-	if (handle[method] != undefined && typeof handle[method][pathname] === 'function') {
-		console.log("Process a request for " + displayPath + ".");
+	if (methodIsDefined)
+		method = method.toLowerCase();
+	
+	if (methodIsDefined
+         && handle[method] != undefined
+         && typeof handle[method][pathname] === FUNCTION_STR) {
+		log("Process a request for " + displayPath + ".");
 		
 		switch (method) {
-			case "get":
+			case GET_STR:
 				handle[method][pathname](response);
 				break;
-			case "post":
+			case POST_STR:
 				handle[method][pathname](response, postData);
 				break;
-			case "put":
+			case PUT_STR:
 				handle[method][pathname](response, params);
 				break;
 			default:
 				console.log("Unknown method '" + method + "'.");
 		}
 	} else {
-		console.log("No request handler found for " + displayPath + ".");
-		response.writeHead(200, {"Content-Type" : "text/plain"});
-		response.write("404 Not found");
+		log("No request handler found for " + displayPath + ".");
+		response.writeHead(CODE_NOT_FOUND, CONTENT_TYPE_TEXT_PLAIN);
+		response.write(NOT_FOUND_BODY_STR);
 		response.end();
 	}
 }
 
 exports = module.exports = {
-	route : route
+	route                   : route,
+	CONTENT_TYPE_TEXT_PLAIN : CONTENT_TYPE_TEXT_PLAIN,
+ 	CODE_NOT_FOUND          : CODE_NOT_FOUND //$test$
 };
