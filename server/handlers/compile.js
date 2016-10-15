@@ -11,4 +11,4 @@ function compile(response, postData) {
 
 exports = module.exports = {
 	compile : compile
-}
+};

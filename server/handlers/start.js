@@ -15,4 +15,4 @@ function start(response) { // TODO remove the plug
 exports = module.exports = {
 	start : start,
 	BODY  : BODY //$test$
-}
+};

@@ -26,7 +26,7 @@ function doWithContent(root, func) {
 }
 
 function doWithFiles(root, func) {
-	readDirRec(root, (error, filePaths) => { // TODO not only in the root folder
+	readDirRec(root, (error, filePaths) => {
 		if (error != null) {
 			console.log("error: " + error);
 			return;
@@ -108,4 +108,4 @@ function toggleProduction(root) {
 exports = module.exports = {
 	toggleTest: toggleTest,
 	toggleProduction: toggleProduction
-}
+};
