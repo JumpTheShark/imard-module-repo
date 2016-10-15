@@ -10,13 +10,12 @@ const REDIRECT_URL            = "http://localhost:8888/compile",
       REPO_NAME               = "test_repo",
       REPO_CLONED_STR         = "Repository has been cloned.",
       POST_STR                = "POST",
-      STATUSCODE_OK           = require("./requestHandlers").STATUSCODE_OK,
-      STATUSCODE_BAD          = require("./requestHandlers").STATUSCODE_BAD,
+      STATUS_CODE_OK          = require("./requestHandlers").STATUS_CODE_OK,
+      STATUS_CODE_BAD         = require("./requestHandlers").STATUS_CODE_BAD,
       CONTENT_TYPE_TEXT_PLAIN = require("./requestHandlers").CONTENT_TYPE_TEXT_PLAIN;
 
 function clone(response, params) {
 	let link = querystring.parse(params).link,
-	    isEligible = false,
 	    outString = "";
 	
 	git.Clone(link, REPO_NAME).then(
@@ -30,13 +29,13 @@ function clone(response, params) {
 				body    : "", // TODO pass code for compiling
 				timeout : REDIRECT_TIMEOUT
 			}, function(err, resp, body) {
-				if (err == null && resp != null && resp.statusCode == STATUSCODE_OK) {
-					response.writeHead(STATUSCODE_OK, CONTENT_TYPE_TEXT_PLAIN);
+				if (err == null && resp != null && resp.statusCode == STATUS_CODE_OK) {
+					response.writeHead(STATUS_CODE_OK, CONTENT_TYPE_TEXT_PLAIN);
 					outString += "compiled: true\n";
 					
 				}
 				else {
-					response.writeHead(STATUSCODE_BAD, CONTENT_TYPE_TEXT_PLAIN);
+					response.writeHead(STATUS_CODE_BAD, CONTENT_TYPE_TEXT_PLAIN);
 					outString += "compiled: false" + (body == null ? "\n" : " (" + body + ")\n");
 				}
 				
@@ -47,7 +46,7 @@ function clone(response, params) {
 		error => {
 			log("Repository has not been cloned. " + error + ".");
 			
-			response.writeHead(STATUSCODE_BAD, CONTENT_TYPE_TEXT_PLAIN);
+			response.writeHead(STATUS_CODE_BAD, CONTENT_TYPE_TEXT_PLAIN);
 			
 			outString += "cloned: false (" + error + ")\n";
 			response.end(outString);

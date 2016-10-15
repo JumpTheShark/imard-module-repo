@@ -6,7 +6,7 @@ const querystring = require("querystring"),
 const REDIRECT_URL            = "http://localhost:8888/clone",
       REDIRECT_TIMEOUT        = 10000,
       CONTENT_TYPE_TEXT_PLAIN = require("./requestHandlers").CONTENT_TYPE_TEXT_PLAIN,
-      STATUSCODE_BAD          = require("./requestHandlers").STATUSCODE_BAD,
+      STATUS_CODE_BAD         = require("./requestHandlers").STATUS_CODE_BAD,
       PUT_STR                 = "PUT";
 
 function cloneRedirect(response, postData) {
@@ -21,7 +21,7 @@ function cloneRedirect(response, postData) {
 			response.end(resp.body);
 		}
 		else {
-			response.writeHead(STATUSCODE_BAD, CONTENT_TYPE_TEXT_PLAIN);
+			response.writeHead(STATUS_CODE_BAD, CONTENT_TYPE_TEXT_PLAIN);
 			response.end(err + "");
 		}
 	});

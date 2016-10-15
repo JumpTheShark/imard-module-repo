@@ -1,7 +1,6 @@
 "use strict";
 
 const request         = require("../../../server/handlers/compile"),
-      requestHandlers = require("../../../server/handlers/requestHandlers"),
       expect          = require("chai").expect;
 
 describe("Request compile", () => {

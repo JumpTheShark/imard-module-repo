@@ -10,12 +10,12 @@ describe("Request handlers'", () => {
 			expect(handlers.CONTENT_TYPE_TEXT_PLAIN["Content-Type"]).to.equal("text/plain");
 		});
 		
-		it("STATUSCODE_OK is equal to 200", () => {
-			expect(handlers.STATUSCODE_OK).to.equal(200);
+		it("STATUS_CODE_OK is equal to 200", () => {
+			expect(handlers.STATUS_CODE_OK).to.equal(200);
 		});
 		
-		it("STATUSCODE_BAD is equal to 400", () => {
-			expect(handlers.STATUSCODE_BAD).to.equal(400);
+		it("STATUS_CODE_BAD is equal to 400", () => {
+			expect(handlers.STATUS_CODE_BAD).to.equal(400);
 		});
 	});
 	

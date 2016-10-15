@@ -1,7 +1,6 @@
 "use strict";
 
 const request         = require("../../../server/handlers/cloneRedirect"),
-      requestHandlers = require("../../../server/handlers/requestHandlers"),
       expect          = require("chai").expect;
 
 describe("Request clone-redirect", () => {
