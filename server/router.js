@@ -20,12 +20,12 @@ const log = require("../self_modules/logger/logger").log;
  * @since < 10.16.16
  */
 const CODE_NOT_FOUND          = 404,
-      NOT_FOUND_BODY_STR      = CODE_NOT_FOUND + ' Not found',
-      FUNCTION_STR            = 'function',
-      GET_STR                 = 'get',
-      POST_STR                = 'post',
-      PUT_STR                 = 'put',
-      CONTENT_TYPE_TEXT_PLAIN = { 'Content-Type' : 'text/plain' };
+      NOT_FOUND_BODY_STR      = CODE_NOT_FOUND + " Not found",
+      FUNCTION_STR            = "function",
+      GET_STR                 = "get",
+      POST_STR                = "post",
+      PUT_STR                 = "put",
+      CONTENT_TYPE_TEXT_PLAIN = { "Content-Type": "text/plain" };
 
 /**
  * Router function that handles the given url with all needed data.

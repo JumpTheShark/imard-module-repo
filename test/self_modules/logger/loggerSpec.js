@@ -13,19 +13,19 @@ describe("Logger", () => {
     });
 
     describe("configuration property", () => {
-        describe("enable_logging_into_console", () => {
-            const enable_logging_into_console = logger.configuration.enable_logging_into_console;
+        describe("enableLoggingIntoConsole", () => {
+            const enableLoggingIntoConsole = logger.configuration.enableLoggingIntoConsole;
 
             it("exists", () => {
-                expect(enable_logging_into_console).not.to.be.an("undefined");
+                expect(enableLoggingIntoConsole).not.to.be.an("undefined");
             });
 
             it("is a boolean", () => {
-                expect(enable_logging_into_console).to.be.a("boolean");
+                expect(enableLoggingIntoConsole).to.be.a("boolean");
             });
 
             it("is equal to false", () => {
-                expect(enable_logging_into_console).to.equal(false);
+                expect(enableLoggingIntoConsole).to.equal(false);
             });
         });
     });
