@@ -1,6 +1,13 @@
+/****************************
+ * Request 'clone-redirect' [POST]. Redirects to the clone request.
+ *
+ * @author GlaDos
+ * @since < 10.16.16
+ ****************************/
+
 "use strict";
 
-const querystring     = require("querystring"),
+const queryString     = require("querystring"),
       request         = require("request"),
 	  requestHandlers = require("./requestHandlers");
 
@@ -28,7 +35,7 @@ function cloneRedirect(response, postData) {
 	else
 		request({
 			uri     : REDIRECT_URL,
-			qs      : { link : querystring.parse(postData).text },
+			qs      : { link : queryString.parse(postData).text },
 			method  : PUT_STR,
 			timeout : REDIRECT_TIMEOUT
 		}, error);

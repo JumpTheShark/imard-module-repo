@@ -1,3 +1,10 @@
+/****************************
+ * Module for union all the requests.
+ *
+ * @author GlaDos
+ * @since < 10.16.16
+ ****************************/
+
 "use strict";
 
 const requestStart         = require("./start").start,

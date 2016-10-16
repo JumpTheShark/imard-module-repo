@@ -1,6 +1,13 @@
+/****************************
+ * Request 'clone' [PUT]. Clones the given repository.
+ *
+ * @author GlaDos
+ * @since < 10.16.16
+ ****************************/
+
 "use strict";
 
-const querystring     = require("querystring"),
+const queryString     = require("querystring"),
       git             = require("nodegit"),
       request         = require("request"),
       log             = require("../../self_modules/logger/logger").log,
@@ -10,6 +17,7 @@ const REDIRECT_URL            = "http://localhost:8888/compile",
       REDIRECT_TIMEOUT        = 10000,
       REPO_NAME               = "test_repo",
       REPO_CLONED_STR         = "Repository has been cloned.",
+	  NO_LINK_STR             = "no link given to clone",
       POST_STR                = "POST",
       STATUS_CODE_OK          = requestHandlers.STATUS_CODE_OK,
       STATUS_CODE_BAD         = requestHandlers.STATUS_CODE_BAD,
@@ -30,9 +38,9 @@ function clone(response, params) {
 	}
 
 	if (params == null)
-		reply(null, null, "no link given to clone");
+		reply(null, null, NO_LINK_STR);
 
-	let link = querystring.parse(params).link,
+	let link = queryString.parse(params).link,
 	    outString = "";
 	
 	git.Clone(link, REPO_NAME).then(

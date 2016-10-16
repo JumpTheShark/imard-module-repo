@@ -1,3 +1,10 @@
+/****************************
+ * Request 'start' [GET]. For now this is a plug request for entering the repository link.
+ *
+ * @author GlaDos
+ * @since < 10.16.16
+ ****************************/
+
 "use strict";
 
 const requestHandlers = require("./requestHandlers");

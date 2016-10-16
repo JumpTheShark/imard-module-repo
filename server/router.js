@@ -1,9 +1,16 @@
+/****************************
+ * Server router. Routs the url and calls the appropriate request handler.
+ *
+ * @author GlaDos
+ * @since < 10.16.16
+ ****************************/
+
 "use strict";
 
 const log = require("../self_modules/logger/logger").log;
 
 const CODE_NOT_FOUND          = 404,
-      NOT_FOUND_BODY_STR      = '404 Not found',
+      NOT_FOUND_BODY_STR      = CODE_NOT_FOUND + ' Not found',
       FUNCTION_STR            = 'function',
       GET_STR                 = 'get',
       POST_STR                = 'post',
@@ -46,5 +53,5 @@ function route(handle, method, pathname, response, params, postData) {
 exports = module.exports = {
 	route                   : route,
 	CONTENT_TYPE_TEXT_PLAIN : CONTENT_TYPE_TEXT_PLAIN,
- 	CODE_NOT_FOUND          : CODE_NOT_FOUND //$test$
+	STATUS_CODE_NOT_FOUND          : CODE_NOT_FOUND //$test$
 };

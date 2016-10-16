@@ -1,3 +1,11 @@
+/****************************
+ * An instrument for managing exports (in general code lines) that used for unit testing only.
+ * Toggles test exports between test and production, commenting tes exports in the last case.
+ *
+ * @author GlaDos
+ * @since < 10.16.16
+ ****************************/
+
 "use strict";
 
 const fs         = require("fs"),

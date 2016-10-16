@@ -1,8 +1,14 @@
+/****************************
+ * Server core. Creates and activates a request listener with all needed instruments.
+ *
+ * @author GlaDos
+ * @since < 10.16.16
+ ****************************/
+
 "use strict";
 
 const http = require("http"),
       url  = require("url"),
-      exec = require("child_process").exec,
       log = require("../self_modules/logger/logger").log;
 
 const PORT = 8888;

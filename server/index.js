@@ -1,3 +1,10 @@
+/****************************
+ * The launcher point. Fills the handler for handling requests andd starts the server.
+ *
+ * @author GlaDos
+ * @since < 10.16.16
+ ****************************/
+
 "use strict";
 
 const server          = require("./server"),
