@@ -7,12 +7,29 @@
 
 "use strict";
 
+/***
+ * Imports.
+ *
+ * @since < 10.16.16
+ */
 const http = require("http"),
       url  = require("url"),
       log = require("../self_modules/logger/logger").log;
 
+/***
+ * Constants.
+ *
+ * @since < 10.16.16
+ */
 const PORT = 8888;
 
+/**
+ * Starts a server by the given route function and collection of request handlers.
+ *
+ * @param route router function to parse the url
+ * @param handle object with request handlers
+ * @since < 10.16.16
+ */
 function start(route, handle) {
 	http.createServer((request, response) => {
 		let postData = "";
@@ -36,6 +53,11 @@ function start(route, handle) {
 	log("Server has started on the port " + PORT + ".");
 }
 
+/***
+ * Exports.
+ *
+ * @since < 10.16.16
+ */
 exports = module.exports = {
 	start : start,
          PORT  : PORT //$test$

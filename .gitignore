@@ -41,4 +41,7 @@ jspm_packages
 *.iml
 
 # JSDOC output folder
-out
+docs
+
+# script for generating JSDOC documentation
+jsdoc

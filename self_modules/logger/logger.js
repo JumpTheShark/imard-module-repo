@@ -35,7 +35,6 @@ const logger = {
 /**
  * Exports.
  *
- * @type {{configuration: {enable_logging_into_console: boolean}, log: logger.log}}
  * @since < 10.16.16
  */
 exports = module.exports = logger;

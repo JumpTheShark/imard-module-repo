@@ -7,10 +7,20 @@
 
 "use strict";
 
+/***
+ * Imports.
+ *
+ * @since < 10.16.16
+ */
 const queryString     = require("querystring"),
       request         = require("request"),
 	  requestHandlers = require("./requestHandlers");
 
+/***
+ * Constants.
+ *
+ * @since < 10.16.16
+ */
 const REDIRECT_URL            = "http://localhost:8888/clone",
       REDIRECT_TIMEOUT        = 10000,
       CONTENT_TYPE_TEXT_PLAIN = requestHandlers.CONTENT_TYPE_TEXT_PLAIN,
@@ -18,6 +28,14 @@ const REDIRECT_URL            = "http://localhost:8888/clone",
       PUT_STR                 = "PUT",
 	  NO_LINK_STR             = "no link given to clone";
 
+/**
+ * The request itself. Redirects internally to the clone request.
+ * The reason is not supported [PUT] method from the HTML content.
+ *
+ * @param response variable to write the reply to
+ * @param postData request body. Must contain the repository link
+ * @since < 10.16.16
+ */
 function cloneRedirect(response, postData) {
 	function error(err, resp, _) {
 		if (resp != null) {
@@ -41,6 +59,11 @@ function cloneRedirect(response, postData) {
 		}, error);
 }
 
+/**
+ * Exports.
+ *
+ * @since < 10.16.16
+ */
 exports = module.exports = {
 	cloneRedirect : cloneRedirect
 };

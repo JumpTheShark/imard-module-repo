@@ -7,12 +7,22 @@
 
 "use strict";
 
+/***
+ * Imports.
+ *
+ * @since < 10.16.16
+ */
 const queryString     = require("querystring"),
       git             = require("nodegit"),
       request         = require("request"),
       log             = require("../../self_modules/logger/logger").log,
 	  requestHandlers = require("./requestHandlers")
 
+/***
+ * Constants.
+ *
+ * @since < 10.16.16
+ */
 const REDIRECT_URL            = "http://localhost:8888/compile",
       REDIRECT_TIMEOUT        = 10000,
       REPO_NAME               = "test_repo",
@@ -23,6 +33,13 @@ const REDIRECT_URL            = "http://localhost:8888/compile",
       STATUS_CODE_BAD         = requestHandlers.STATUS_CODE_BAD,
       CONTENT_TYPE_TEXT_PLAIN = requestHandlers.CONTENT_TYPE_TEXT_PLAIN;
 
+/**
+ * The request itself. Clones repository by the given link.
+ *
+ * @param response variable to write the reply to
+ * @param params request specification. Must contain 'link'
+ * @since < 10.16.16
+ */
 function clone(response, params) {
 	function reply(err, resp, body) {
 		if (err == null && resp != null && resp.statusCode == STATUS_CODE_OK) {
@@ -42,7 +59,10 @@ function clone(response, params) {
 
 	let link = queryString.parse(params).link,
 	    outString = "";
-	
+
+	if (link === 'undefined')
+		reply(null, null, NO_LINK_STR);
+
 	git.Clone(link, REPO_NAME).then(
 		(_) => {
 			log(REPO_CLONED_STR);
@@ -67,6 +87,11 @@ function clone(response, params) {
 	);
 }
 
+/**
+ * Exports.
+ *
+ * @since < 10.16.16
+ */
 exports = module.exports = {
 	clone : clone
 };
