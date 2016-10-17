@@ -25,8 +25,8 @@ const
  * @since < 10.16.16
  */
 const
-	MARKER           = "//$test$",
-	MARKER_COMMENTED = "//test| ",
+	MARKER           = "/*$test$*/",
+	MARKER_COMMENTED = "//test ",
 	ENCODING         = "utf8",
 	NEWLINE_REGEXP   = "\n",
 	JS_EXTENSION    = ".js";
@@ -45,12 +45,10 @@ const doWithContent = (root, func) => {
 			const filePath = filePaths[i];
 
 			fs.readFile(filePath, ENCODING, (error, content) => {
-				if (error !== null) {
+				if (error !== null)
 					console.log("error while reading \"" + filePath + "\": " + error);
-					return;
-				}
-
-				func(filePath, content);
+				else
+					func(filePath, content);
 			});
 		}
 	});

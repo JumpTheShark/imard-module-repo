@@ -1,12 +1,12 @@
 "use strict";
 
-const request         = require("../../../server/handlers/clone"),
-	  expect          = require("chai").expect,
-	  http            = require("http"),
-	  requestHandlers = require("../../../server/handlers/requestHandlers");
+const
+	request         = require("../../../server/handlers/clone"),
+	expect          = require("chai").expect,
+	http            = require("http"),
+	requestHandlers = require("../../../server/handlers/requestHandlers");
 
 const
-	STATUS_CODE_OK          = requestHandlers.STATUS_CODE_OK,
 	STATUS_CODE_BAD         = requestHandlers.STATUS_CODE_BAD,
 	CONTENT_TYPE_TEXT_PLAIN = requestHandlers.CONTENT_TYPE_TEXT_PLAIN,
 	clone                   = request.clone;

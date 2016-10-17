@@ -12,19 +12,21 @@
  *
  * @since < 10.16.16
  */
-const requestStart         = require("./start").start,
-	  requestCloneRedirect = require("./cloneRedirect").cloneRedirect,
-	  requestClone         = require("./clone").clone,
-	  requestCompile       = require("./compile").compile;
+const
+	requestStart         = require("./start").start,
+	requestCloneRedirect = require("./cloneRedirect").cloneRedirect,
+	requestClone         = require("./clone").clone,
+	requestCompile       = require("./compile").compile;
 
 /***
  * Constants.
  *
  * @since < 10.16.16
  */
-const CONTENT_TYPE_TEXT_PLAIN = { "Content-Type" : "text/plain" },
-      STATUS_CODE_OK          = 200,
-      STATUS_CODE_BAD         = 400;
+const
+	CONTENT_TYPE_TEXT_PLAIN = { "Content-Type" : "text/plain" },
+	STATUS_CODE_OK          = 200,
+	STATUS_CODE_BAD         = 400;
 
 /**
  * Exports.
@@ -40,5 +42,6 @@ exports = module.exports = {
 	clone                   : requestClone,
 	compile                 : requestCompile
 };
-
-console.log(exports.cloneRedirect); // TODO remove the plug
+// TODO remove the plug
+/* eslint-disable no-console */
+console.log(exports.cloneRedirect);

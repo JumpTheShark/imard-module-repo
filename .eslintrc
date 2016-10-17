@@ -2,7 +2,8 @@
   "extends": "eslint:all",
   "env": {
     "node": true,
-    "es6": true
+    "es6": true,
+    "jasmine": true
   },
   "rules": {
     "indent": ["error", "tab"],
@@ -13,6 +14,7 @@
     "no-plusplus": ["error", { "allowForLoopAfterthoughts": true }],
     "object-curly-newline": ["error", { "minProperties": 2 }],
     "no-unused-vars": ["error", { "args": "none" }],
+    "no-negated-condition": 0,
     "no-ternary": 0,
     "no-underscore-dangle": 0,
     "linebreak-style": 0,
@@ -29,6 +31,7 @@
     "newline-before-return": "off",
     "newline-per-chained-call": "off",
     "object-curly-spacing": ["off", "never"],
+    "semi": "error",
     "prefer-arrow-callback": 0,
     "prefer-reflect": 0,
     "prefer-template": 0,
@@ -46,6 +49,11 @@
     "no-multi-spaces": 0,
     "no-tabs": 0,
     "curly": 0,
-    "no-use-before-define": 0
+    "no-use-before-define": 0,
+    "key-spacing": 0,
+    "no-warning-comments": 0,
+    "no-inline-comments": 0,
+    "no-whitespace-before-property": 0,
+    "no-empty-function": 0
   }
 }

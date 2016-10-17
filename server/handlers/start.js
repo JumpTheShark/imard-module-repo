@@ -19,22 +19,38 @@ const requestHandlers = require("./requestHandlers");
  *
  * @since < 10.16.16
  */
-const CONTENT_TYPE_TEXT_PLAIN = requestHandlers.CONTENT_TYPE_TEXT_PLAIN,
-      STATUS_CODE_OK          = requestHandlers.STATUS_CODE_OK,
-      BODY                    = '<html><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8" /></head><body><form action="/clone-redirect" method="post"><textarea name="text" rows="20" cols="60"></textarea><input type="submit" value="Clone repo" /></form></body></html>';
+const
+	CONTENT_TYPE_TEXT_PLAIN = requestHandlers.CONTENT_TYPE_TEXT_PLAIN,
+	STATUS_CODE_OK          = requestHandlers.STATUS_CODE_OK,
+	BODY                    =
+		"<html>" +
+		"<head>" +
+		"<meta http-equiv='Content-Type' content='text/html;charset=UTF-8' />" +
+		"</head>" +
+		"<body>" +
+		"<form action=''/clone-redirect' method='post'>" +
+		"<textarea name='text' rows='20' cols='60'>" +
+		"</textarea>" +
+		"<input type='submit' value='Clone repo' />" +
+		"</form>" +
+		"</body>" +
+		"</html>";
 
 /**
  * The request itself. Loads starting page.
  * Also contains a text field and a button to submit the link, calling the clone-redirect request.
  *
- * @param response variable to write the reply to
+ * @param {object} response variable to write the reply to
+ * @return {null} nothing
  * @since < 10.16.16
  */
-function start(response) { // TODO remove the plug
-	console.log("AAAAAA: " + require("./requestHandlers").STATUS_CODE_OK + " | " + requestHandlers.STATUS_CODE_OK + " | " + STATUS_CODE_OK);
+const start = (response) => {
+	// TODO remove the plug
+	/* eslint-disable no-console */
+	console.log("DEBUG: " + require("./requestHandlers").STATUS_CODE_OK + " | " + requestHandlers.STATUS_CODE_OK + " | " + STATUS_CODE_OK);
 	response.writeHead(STATUS_CODE_OK, CONTENT_TYPE_TEXT_PLAIN);
 	response.end(BODY);
-}
+};
 
 /**
  * Exports.
@@ -43,5 +59,5 @@ function start(response) { // TODO remove the plug
  */
 exports = module.exports = {
 	start : start,
-	BODY  : BODY //$test$
+	BODY  : BODY /*$test$*/
 };

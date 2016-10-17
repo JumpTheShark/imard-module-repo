@@ -12,9 +12,10 @@
  *
  * @since < 10.16.16
  */
-const server          = require("./server"),
-      router          = require("./router"),
-      requestHandlers = require("./handlers/requestHandlers");
+const
+	server          = require("./server"),
+	router          = require("./router"),
+	requestHandlers = require("./handlers/requestHandlers");
 
 /**
  * Handle object for handling requests. Contains a list of request types,
@@ -34,11 +35,11 @@ const handle = {
  *
  * @since < 10.16.16
  */
-handle["get"] ["/"]               = requestHandlers.start;
-handle["get"] ["/start"]          = requestHandlers.start;
-handle["post"]["/clone-redirect"] = requestHandlers.cloneRedirect;
-handle["put"] ["/clone"]          = requestHandlers.clone;
-handle["post"]["/compile"]        = requestHandlers.compile;
+handle.get ["/"]               = requestHandlers.start;
+handle.get ["/start"]          = requestHandlers.start;
+handle.post["/clone-redirect"] = requestHandlers.cloneRedirect;
+handle.put ["/clone"]          = requestHandlers.clone;
+handle.post["/compile"]        = requestHandlers.compile;
 
 /**
  * Starts a server.
@@ -52,6 +53,4 @@ server.start(router.route, handle);
  *
  * @since < 10.16.16
  */
-exports = module.exports = {
-	handle : handle //$test$
-};
+exports = module.exports = { handle : handle /*$test$*/ };
