@@ -13,9 +13,9 @@
  * @since < 10.16.16
  */
 const
-	queryString     = require("querystring"),
-	request         = require("request"),
-	requestHandlers = require("./requestHandlers");
+	queryString = require("querystring"),
+	request     = require("request"),
+	constants   = require("../constants");
 
 /***
  * Constants.
@@ -25,8 +25,8 @@ const
 const
 	REDIRECT_URL            = "http://localhost:8888/clone",
 	REDIRECT_TIMEOUT        = 10000,
-	CONTENT_TYPE_TEXT_PLAIN = requestHandlers.CONTENT_TYPE_TEXT_PLAIN,
-	STATUS_CODE_BAD         = requestHandlers.STATUS_CODE_BAD,
+	CONTENT_TYPE_TEXT_PLAIN = constants.CONTENT_TYPE_TEXT_PLAIN,
+	STATUS_CODE_BAD         = constants.STATUS_CODE_BAD,
 	PUT_STR                 = "PUT",
 	NO_LINK_STR             = "no link given to clone";
 

@@ -12,7 +12,9 @@
  *
  * @since < 10.16.16
  */
-const log = require("../self_modules/logger/logger").log;
+const
+	log       = require("../self_modules/logger/logger").log,
+	constants = require("./constants");
 
 /***
  * Constants.
@@ -20,8 +22,8 @@ const log = require("../self_modules/logger/logger").log;
  * @since < 10.16.16
  */
 const
-	CODE_NOT_FOUND          = 404,
-	NOT_FOUND_BODY_STR      = CODE_NOT_FOUND + " Not found",
+	CODE_NOT_FOUND          = constants.STATUS_CODE_NOT_FOUND,
+	NOT_FOUND_BODY_STR      = constants + " Not found",
 	FUNCTION_STR            = "function",
 	GET_STR                 = "get",
 	POST_STR                = "post",
@@ -79,8 +81,4 @@ const route = (handle, _method, pathname, response, params, postData) => {
  *
  * @since < 10.16.16
  */
-exports = module.exports = {
-	route                   : route,
-	CONTENT_TYPE_TEXT_PLAIN : CONTENT_TYPE_TEXT_PLAIN,
-	STATUS_CODE_NOT_FOUND   : CODE_NOT_FOUND /*$test$*/
-};
+exports = module.exports = { route : route };

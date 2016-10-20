@@ -12,7 +12,7 @@
  *
  * @since < 10.16.16
  */
-const requestHandlers = require("./requestHandlers");
+const constants = require("../constants");
 
 /***
  * Constants.
@@ -20,8 +20,8 @@ const requestHandlers = require("./requestHandlers");
  * @since < 10.16.16
  */
 const
-	CONTENT_TYPE_TEXT_PLAIN = requestHandlers.CONTENT_TYPE_TEXT_PLAIN,
-	STATUS_CODE_OK          = requestHandlers.STATUS_CODE_OK,
+	CONTENT_TYPE_TEXT_PLAIN = constants.CONTENT_TYPE_TEXT_PLAIN,
+	STATUS_CODE_OK          = constants.STATUS_CODE_OK,
 	BODY                    =
 		"<html>" +
 		"<head>" +
@@ -45,9 +45,6 @@ const
  * @since < 10.16.16
  */
 const start = (response) => {
-	// TODO remove the plug
-	/* eslint-disable no-console */
-	console.log("DEBUG: " + require("./requestHandlers").STATUS_CODE_OK + " | " + requestHandlers.STATUS_CODE_OK + " | " + STATUS_CODE_OK);
 	response.writeHead(STATUS_CODE_OK, CONTENT_TYPE_TEXT_PLAIN);
 	response.end(BODY);
 };

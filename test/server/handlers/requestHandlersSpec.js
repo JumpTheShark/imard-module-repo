@@ -4,24 +4,7 @@ const
 	handlers = require("../../../server/handlers/requestHandlers"),
 	expect   = require("chai").expect;
 
-const STATUS_CODE_OK = 200;
-
 describe("Request handlers'", () => {
-	describe("constant ", () => {
-		it("CONTENT_TYPE_TEXT_PLAIN exists and is isomorphic to { \"Content-Type\": \"text/plain\" }", () => {
-			expect(handlers.CONTENT_TYPE_TEXT_PLAIN).not.to.be.an("undefined");
-			expect(handlers.CONTENT_TYPE_TEXT_PLAIN["Content-Type"]).to.equal("text/plain");
-		});
-
-		it("STATUS_CODE_OK is equal to 200", () => {
-			expect(handlers.STATUS_CODE_OK).to.equal(STATUS_CODE_OK);
-		});
-
-		it("STATUS_CODE_BAD is equal to 400", () => {
-			expect(handlers.STATUS_CODE_BAD).to.equal(STATUS_CODE_OK);
-		});
-	});
-
 	describe("request", () => {
 		it("start binded", () => {
 			expect(handlers.start).not.to.be.an("undefined");

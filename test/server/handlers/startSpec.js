@@ -1,14 +1,15 @@
 "use strict";
 
 const
-	request         = require("../../../server/handlers/start"),
-	expect          = require("chai").expect,
-	http            = require("http"),
-	requestHandlers = require("../../../server/handlers/requestHandlers");
+	request   = require("../../../server/handlers/start"),
+	expect    = require("chai").expect,
+	http      = require("http"),
+	constants = require("../../../server/constants");
 
 const
-	STATUS_CODE_OK          = requestHandlers.STATUS_CODE_OK,
-	CONTENT_TYPE_TEXT_PLAIN = requestHandlers.CONTENT_TYPE_TEXT_PLAIN;
+	STATUS_CODE_OK          = constants.STATUS_CODE_OK,
+	CONTENT_TYPE_TEXT_PLAIN = constants.CONTENT_TYPE_TEXT_PLAIN,
+	start                   = request.start;
 
 describe("Request start", () => {
 	it("exists", () => {
@@ -21,11 +22,19 @@ describe("Request start", () => {
 
 	describe("response", () => {
 		it("returns code " + STATUS_CODE_OK, () => {
-			expect(request.start(new http.ServerResponse(() => {}, () => {})).statusCode).to.equal(STATUS_CODE_OK);
+			const reply = new http.ServerResponse(() => {}, () => {});
+
+			start(reply);
+
+			expect(reply.statusCode).to.equal(STATUS_CODE_OK);
 		});
 
 		it("returns text", () => {
-			expect(request.start(new http.ServerResponse(() => {}, () => {})).contentType).to.equal(CONTENT_TYPE_TEXT_PLAIN);
+			const reply = new http.ServerResponse(() => {}, () => {});
+
+			start(reply);
+
+			expect(reply.getHeader("content-type")).to.equal(CONTENT_TYPE_TEXT_PLAIN);
 		});
 	});
 });

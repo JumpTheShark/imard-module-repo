@@ -13,8 +13,8 @@
  * @since < 10.16.16
  */
 const
-	//exec            = require("child_process").exec, TODO uncomment
-	requestHandlers = require("./requestHandlers");
+	exec      = require("child_process").exec,
+	constants = require("../constants");
 
 /***
  * Constants.
@@ -23,8 +23,12 @@ const
  */
 const
 	NOT_SUPPORTED_STR       = "not supported yet.",
-	CONTENT_TYPE_TEXT_PLAIN = requestHandlers.CONTENT_TYPE_TEXT_PLAIN,
-	STATUS_CODE_BAD         = requestHandlers.STATUS_CODE_BAD;
+	//BUILD_COMPLETED_STR     = "built completed.", TODO uncomment the line
+	NO_LINK_STR             = "no link given.",
+	CONTENT_TYPE_TEXT_PLAIN = constants.CONTENT_TYPE_TEXT_PLAIN,
+	STATUS_CODE_BAD         = constants.STATUS_CODE_BAD,
+	STATUS_CODE_OK          = constants.STATUS_CODE_OK,
+	COMMAND_BUILD           = " "; /* TODO build command */
 
 /**
  * The request itself. Creates useful data for the given new module (after cloning).
@@ -35,9 +39,21 @@ const
  * @since < 10.16.16
  */
 const compile = (response, postData) => {
-	// TODO complete the request
-	response.writeHead(STATUS_CODE_BAD, CONTENT_TYPE_TEXT_PLAIN);
-	response.end(NOT_SUPPORTED_STR);
+	if (postData === null) {
+		response.writeHead(STATUS_CODE_BAD, CONTENT_TYPE_TEXT_PLAIN);
+		response.end(NO_LINK_STR);
+		return;
+	}
+
+	exec(COMMAND_BUILD + postData, (_, out, err) => {
+		if (err === null) {
+			response.writeHead(STATUS_CODE_OK, CONTENT_TYPE_TEXT_PLAIN);
+			response.end(NOT_SUPPORTED_STR);
+		} else {
+			response.writeHead(STATUS_CODE_BAD, CONTENT_TYPE_TEXT_PLAIN);
+			response.end("error: " + err);
+		}
+	});
 };
 
 /**
