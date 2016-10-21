@@ -1,0 +1,4 @@
+#!/bin/bash
+
+node --harmony --harmony_destructuring node_modules/imard-module-builder/bin/build.js
+

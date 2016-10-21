@@ -83,7 +83,7 @@ const clone = (inject, params) => {
 			request({
 				uri:     REDIRECT_URL,
 				method:  POST_STR,
-				body:    link,
+				body:    REPO_NAME,
 				timeout: REDIRECT_TIMEOUT
 			}, reply);
 		},

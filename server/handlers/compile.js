@@ -14,6 +14,7 @@
  */
 const
 	exec      = require("child_process").exec,
+	log       = require("../../self_modules/logger/logger").log,
 	constants = require("../constants");
 
 /***
@@ -23,13 +24,13 @@ const
  */
 const
 	NOT_SUPPORTED_STR       = "not supported yet.",
-	//BUILD_COMPLETED_STR     = "built completed.", TODO uncomment the line
+	BUILD_COMPLETED_STR     = "build completed.",
 	NO_LINK_STR             = "no link given.",
 	CONTENT_TYPE_TEXT_PLAIN = constants.CONTENT_TYPE_TEXT_PLAIN,
 	STATUS_CODE_BAD         = constants.STATUS_CODE_BAD,
 	STATUS_CODE_OK          = constants.STATUS_CODE_OK,
-	COMMAND_BUILD           = "imard-build ",
-	BUILD_PATH              = "built";
+	COMMAND_BUILD           = "./imard-build ",
+	BUILD_PATH              = "test-build";
 
 /**
  * The request itself. Creates useful data for the given new module (after cloning).
@@ -46,9 +47,10 @@ const compile = (inject, postData) => {
 	}
 
 	exec(COMMAND_BUILD + postData + " " + BUILD_PATH, (_, out, err) => {
-		if (err === null)
+		if (err === null) {
+			log(BUILD_COMPLETED_STR);
 			inject(STATUS_CODE_OK, CONTENT_TYPE_TEXT_PLAIN, NOT_SUPPORTED_STR);
-		else
+		} else
 			inject(STATUS_CODE_BAD, CONTENT_TYPE_TEXT_PLAIN, `error: ${err}`);
 	});
 };

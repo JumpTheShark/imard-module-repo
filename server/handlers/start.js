@@ -28,7 +28,7 @@ const
 		"<meta http-equiv='Content-Type' content='text/html;charset=UTF-8' />" +
 		"</head>" +
 		"<body>" +
-		"<form action=''/clone-redirect' method='post'>" +
+		"<form action='/clone-redirect' method='post'>" +
 		"<textarea name='text' rows='20' cols='60'>" +
 		"</textarea>" +
 		"<input type='submit' value='Clone repo' />" +
