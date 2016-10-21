@@ -51,7 +51,7 @@ const compile = (inject, postData) => {
 			log(BUILD_COMPLETED_STR);
 			inject(STATUS_CODE_OK, CONTENT_TYPE_TEXT_PLAIN, NOT_SUPPORTED_STR);
 		} else
-			inject(STATUS_CODE_BAD, CONTENT_TYPE_TEXT_PLAIN, `error: ${err}`);
+			inject(STATUS_CODE_BAD, CONTENT_TYPE_TEXT_PLAIN, `error: ${out}`);
 	});
 };
 

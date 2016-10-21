@@ -57,7 +57,7 @@ const clone = (inject, params) => {
 			inject(
 				STATUS_CODE_BAD,
 				CONTENT_TYPE_TEXT_PLAIN,
-				outString + `compiled: false"${body === null ? "\n" : `(${body})\n`}`
+				outString + `compiled: false ${body === null ? "\n" : `(${body})\n`}`
 			);
 	};
 
