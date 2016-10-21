@@ -42,6 +42,14 @@ handle.put ["/clone"]          = requestHandlers.clone;
 handle.post["/compile"]        = requestHandlers.compile;
 
 /**
+ * Returns server with default route function and handlers.
+ *
+ * @return {object} server
+ * @since 21.16.16
+ */
+const getDefaultServer = () => server.serverGen(router.route, handle);
+
+/**
  * Starts a server.
  *
  * @since < 10.16.16
@@ -53,4 +61,7 @@ server.start(router.route, handle);
  *
  * @since < 10.16.16
  */
-exports = module.exports = { handle : handle /*$test$*/ };
+exports = module.exports = {
+	getDefaultServer : getDefaultServer,
+	handle           : handle /*$test$*/
+};

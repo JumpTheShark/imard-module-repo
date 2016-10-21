@@ -40,6 +40,7 @@
   "dependencies": {
     "express": "^4.14.0",
     "nodegit": "^0.16.0",
-    "request": "^2.75.0"
+    "request": "^2.75.0",
+    "imard-builder": "git@github.com:JumpTheShark/imard-module-builder.git"
   }
 }

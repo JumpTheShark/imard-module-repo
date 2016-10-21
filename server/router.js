@@ -13,8 +13,8 @@
  * @since < 10.16.16
  */
 const
-	log       = require("../self_modules/logger/logger").log,
-	constants = require("./constants");
+	log           = require("../self_modules/logger/logger").log,
+	constants     = require("./constants");
 
 /***
  * Constants.
@@ -22,13 +22,13 @@ const
  * @since < 10.16.16
  */
 const
-	CODE_NOT_FOUND          = constants.STATUS_CODE_NOT_FOUND,
-	NOT_FOUND_BODY_STR      = constants + " Not found",
-	FUNCTION_STR            = "function",
-	GET_STR                 = "get",
-	POST_STR                = "post",
-	PUT_STR                 = "put",
-	CONTENT_TYPE_TEXT_PLAIN = { "Content-Type": "text/plain" };
+	CODE_NOT_FOUND     = constants.STATUS_CODE_NOT_FOUND,
+	TEXT_PLAIN         = constants.TEXT_PLAIN,
+	NOT_FOUND_BODY_STR = `${CODE_NOT_FOUND} Not found`,
+	FUNCTION_STR       = "function",
+	GET_STR            = "get",
+	POST_STR           = "post",
+	PUT_STR            = "put";
 
 /**
  * Router function that handles the given url with all needed data.
@@ -37,13 +37,13 @@ const
  * @param {object} handle object with request handlers
  * @param {string} _method request method
  * @param {string} pathname request url
- * @param {object} response response to put request reply in
+ * @param {function(object)} inject response inject function to put request reply in
  * @param {string} params request parameters (after '?'). For [PUT] requests only
  * @param {string} postData request body. For [POST] requests only
  * @return {null} nothing
  * @since < 10.16.16
  */
-const route = (handle, _method, pathname, response, params, postData) => {
+const route = (handle, _method, pathname, inject, params, postData) => {
 	const
 		displayPath = pathname + " [" + _method + "]",
 		methodIsDefined = _method !== undefined;
@@ -57,22 +57,19 @@ const route = (handle, _method, pathname, response, params, postData) => {
 
 		switch (method) {
 		case GET_STR:
-			handle[method][pathname](response);
+			handle[method][pathname](inject);
 			break;
 		case POST_STR:
-			handle[method][pathname](response, postData);
+			handle[method][pathname](inject, postData);
 			break;
 		case PUT_STR:
-			handle[method][pathname](response, params);
+			handle[method][pathname](inject, params);
 			break;
 		default:
-			log("Unknown method '" + method + "'.");
 		}
 	} else {
 		log("No request handler found for " + displayPath + ".");
-		response.writeHead(CODE_NOT_FOUND, CONTENT_TYPE_TEXT_PLAIN);
-		response.write(NOT_FOUND_BODY_STR);
-		response.end();
+		inject(CODE_NOT_FOUND, TEXT_PLAIN, NOT_FOUND_BODY_STR);
 	}
 };
 

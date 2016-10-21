@@ -15,7 +15,7 @@
  * @type {{enableLoggingIntoConsole: boolean}}
  * @since < 10.16.16
  */
-const configuration = { enableLoggingIntoConsole: false };
+const configuration = { enableLoggingIntoConsole : false };
 
 /**
  * The logger itself. Contains its configuration and the log() function.
@@ -29,6 +29,8 @@ const logger = {
 	log: (message) => {
 		if (configuration.enableLoggingIntoConsole)
 			console.log(message);
+
+		return configuration.enableLoggingIntoConsole;
 	}
 };
 

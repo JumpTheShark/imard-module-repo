@@ -34,20 +34,17 @@ const
  * The request itself. Redirects internally to the clone request.
  * The reason is not supported [PUT] method from the HTML content.
  *
- * @param {object} response variable to write the reply to
+ * @param {function(object)} inject response inject function to put request reply in
  * @param {string} postData request body. Must contain the repository link
  * @return {null} nothing
  * @since < 10.16.16
  */
-const cloneRedirect = (response, postData) => {
+const cloneRedirect = (inject, postData) => {
 	const error = (err, resp, _) => {
-		if (resp !== null) {
-			response.writeHead(resp.statusCode, resp.headers);
-			response.end(resp.body);
-		} else {
-			response.writeHead(STATUS_CODE_BAD, CONTENT_TYPE_TEXT_PLAIN);
-			response.end(String(err));
-		}
+		if (resp !== null)
+			inject(resp.statusCode, resp.headers, resp.body);
+		else
+			inject(STATUS_CODE_BAD, CONTENT_TYPE_TEXT_PLAIN, String(err));
 	};
 
 	if (postData === null)

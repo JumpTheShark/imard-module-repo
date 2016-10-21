@@ -38,24 +38,27 @@ const
 /**
  * The request itself. Clones repository by the given link.
  *
- * @param {object} response variable to write the reply to
+ * @param {function(object)} inject response inject function to put request reply in
  * @param {string} params request specification. Must contain 'link'
  * @return {null} nothing
  * @since < 10.16.16
  */
-const clone = (response, params) => {
+const clone = (inject, params) => {
 	let outString = "";
 
 	const reply = (err, resp, body) => {
-		if (err === null && resp !== null && resp.statusCode === STATUS_CODE_OK) {
-			response.writeHead(STATUS_CODE_OK, CONTENT_TYPE_TEXT_PLAIN);
-			outString += "compiled: true\n";
-		} else {
-			response.writeHead(STATUS_CODE_BAD, CONTENT_TYPE_TEXT_PLAIN);
-			outString += "compiled: false" + (body === null ? "\n" : " (" + body + ")\n");
-		}
-
-		response.end(outString);
+		if (err === null && resp !== null && resp.statusCode === STATUS_CODE_OK)
+			inject(
+				STATUS_CODE_OK,
+				CONTENT_TYPE_TEXT_PLAIN,
+				outString + "compiled: true\n"
+			);
+		else
+			inject(
+				STATUS_CODE_BAD,
+				CONTENT_TYPE_TEXT_PLAIN,
+				outString + `compiled: false"${body === null ? "\n" : `(${body})\n`}`
+			);
 	};
 
 	if (params === null) {
@@ -72,8 +75,6 @@ const clone = (response, params) => {
 
 	/* eslint-disable new-cap */
 
-	/* TODO pass code for compiling */
-
 	git.Clone(link, REPO_NAME).then(
 		(_) => {
 			log(REPO_CLONED_STR);
@@ -82,18 +83,14 @@ const clone = (response, params) => {
 			request({
 				uri:     REDIRECT_URL,
 				method:  POST_STR,
-				body:    "",
+				body:    link,
 				timeout: REDIRECT_TIMEOUT
 			}, reply);
 		},
 
 		(error) => {
-			log("Repository has not been cloned. " + error + ".");
-
-			response.writeHead(STATUS_CODE_BAD, CONTENT_TYPE_TEXT_PLAIN);
-
-			outString += "cloned: false (" + error + ")\n";
-			response.end(outString);
+			log(`Repository has not been cloned. ${error}.`);
+			inject(STATUS_CODE_BAD, CONTENT_TYPE_TEXT_PLAIN, `${outString}cloned: false (${error})\n`);
 		}
 	);
 

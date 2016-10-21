@@ -9,23 +9,46 @@ const
 	STATUS_CODE_BAD       = 400,
 	STATUS_CODE_NOT_FOUND = 404,
 	CONTENT_TYPE_STR      = "Content-Type",
-	TEXT_PLAIN_STR        = "text/plain";
+	TEXT_PLAIN_STR        = "text/plain",
+	TEXT_HTML_STR         = "text/html",
+	TEST_PORT             = 8889;
 
 describe("Constant ", () => {
-	it("CONTENT_TYPE_TEXT_PLAIN exists and is isomorphic to { \"" + CONTENT_TYPE_STR + "\": \"" + TEXT_PLAIN_STR + "\" }", () => {
+	it(`CONTENT_TYPE is equal to ${CONTENT_TYPE_STR}`, () => {
+		expect(constants.CONTENT_TYPE).to.equal(CONTENT_TYPE_STR);
+	});
+
+	it(`TEXT_PLAIN is equal to ${TEXT_PLAIN_STR}`, () => {
+		expect(constants.TEXT_PLAIN).to.equal(TEXT_PLAIN_STR);
+	});
+
+	it(`TEXT_HTML is equal to ${TEXT_HTML_STR}`, () => {
+		expect(constants.TEXT_HTML).to.equal(TEXT_HTML_STR);
+	});
+
+	it(`CONTENT_TYPE_TEXT_PLAIN exists and is isomorphic to {"${CONTENT_TYPE_STR}" : "${TEXT_PLAIN_STR}" }`, () => {
 		expect(constants.CONTENT_TYPE_TEXT_PLAIN).not.to.be.an("undefined");
 		expect(constants.CONTENT_TYPE_TEXT_PLAIN[CONTENT_TYPE_STR]).to.equal(TEXT_PLAIN_STR);
 	});
 
-	it("STATUS_CODE_OK is equal to " + STATUS_CODE_OK, () => {
+	it(`CONTENT_TYPE_TEXT_HTML exists and is isomorphic to {"${CONTENT_TYPE_STR}" : "${TEXT_HTML_STR}" }`, () => {
+		expect(constants.CONTENT_TYPE_TEXT_HTML).not.to.be.an("undefined");
+		expect(constants.CONTENT_TYPE_TEXT_HTML[CONTENT_TYPE_STR]).to.equal(TEXT_HTML_STR);
+	});
+
+	it(`STATUS_CODE_OK is equal to ${STATUS_CODE_OK}`, () => {
 		expect(constants.STATUS_CODE_OK).to.equal(STATUS_CODE_OK);
 	});
 
-	it("STATUS_CODE_BAD is equal to " + STATUS_CODE_BAD, () => {
+	it(`STATUS_CODE_BAD is equal to ${STATUS_CODE_BAD}`, () => {
 		expect(constants.STATUS_CODE_BAD).to.equal(STATUS_CODE_BAD);
 	});
 
-	it("STATUS_CODE_NOT_FOUND is equal to " + STATUS_CODE_NOT_FOUND, () => {
+	it(`STATUS_CODE_NOT_FOUND is equal to ${STATUS_CODE_NOT_FOUND}`, () => {
 		expect(constants.STATUS_CODE_NOT_FOUND).to.equal(STATUS_CODE_NOT_FOUND);
+	});
+
+	it(`TEST_PORT is equal to ${TEST_PORT}`, () => {
+		expect(constants.TEST_PORT).to.equal(TEST_PORT);
 	});
 });

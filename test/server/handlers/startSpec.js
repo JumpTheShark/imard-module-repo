@@ -3,13 +3,14 @@
 const
 	request   = require("../../../server/handlers/start"),
 	expect    = require("chai").expect,
-	http      = require("http"),
-	constants = require("../../../server/constants");
+	test      = require("supertest"),
+	constants = require("../../../server/constants"),
+	index     = require("../../../server/index");
 
 const
-	STATUS_CODE_OK          = constants.STATUS_CODE_OK,
-	CONTENT_TYPE_TEXT_PLAIN = constants.CONTENT_TYPE_TEXT_PLAIN,
-	start                   = request.start;
+	STATUS_CODE_OK = constants.STATUS_CODE_OK,
+	CONTENT_TYPE   = constants.CONTENT_TYPE,
+	TEXT_HTML      = constants.TEXT_HTML;
 
 describe("Request start", () => {
 	it("exists", () => {
@@ -21,20 +22,21 @@ describe("Request start", () => {
 	});
 
 	describe("response", () => {
-		it("returns code " + STATUS_CODE_OK, () => {
-			const reply = new http.ServerResponse(() => {}, () => {});
+		let testServer = null;
 
-			start(reply);
-
-			expect(reply.statusCode).to.equal(STATUS_CODE_OK);
+		before(() => {
+			testServer = index.getDefaultServer().listen(constants.TEST_PORT);
 		});
 
-		it("returns text", () => {
-			const reply = new http.ServerResponse(() => {}, () => {});
+		after(() => {
+			testServer.close();
+		});
 
-			start(reply);
-
-			expect(reply.getHeader("content-type")).to.equal(CONTENT_TYPE_TEXT_PLAIN);
+		it(`returns code ${STATUS_CODE_OK} with text`, (done) => {
+			test(testServer)
+				.get("/start")
+				.expect(CONTENT_TYPE, TEXT_HTML)
+				.expect(STATUS_CODE_OK, done);
 		});
 	});
 });

@@ -20,9 +20,9 @@ const constants = require("../constants");
  * @since < 10.16.16
  */
 const
-	CONTENT_TYPE_TEXT_PLAIN = constants.CONTENT_TYPE_TEXT_PLAIN,
-	STATUS_CODE_OK          = constants.STATUS_CODE_OK,
-	BODY                    =
+	CONTENT_TYPE_TEXT_HTML = constants.CONTENT_TYPE_TEXT_HTML,
+	STATUS_CODE_OK         = constants.STATUS_CODE_OK,
+	BODY                   =
 		"<html>" +
 		"<head>" +
 		"<meta http-equiv='Content-Type' content='text/html;charset=UTF-8' />" +
@@ -40,13 +40,12 @@ const
  * The request itself. Loads starting page.
  * Also contains a text field and a button to submit the link, calling the clone-redirect request.
  *
- * @param {object} response variable to write the reply to
+ * @param {function(object)} inject response inject function to put request reply in
  * @return {null} nothing
  * @since < 10.16.16
  */
-const start = (response) => {
-	response.writeHead(STATUS_CODE_OK, CONTENT_TYPE_TEXT_PLAIN);
-	response.end(BODY);
+const start = (inject) => {
+	inject(STATUS_CODE_OK, CONTENT_TYPE_TEXT_HTML, BODY);
 };
 
 /**
