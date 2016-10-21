@@ -23,12 +23,12 @@ const
  * @since < 10.16.16
  */
 const
-	NOT_SUPPORTED_STR       = "not supported yet.",
-	BUILD_COMPLETED_STR     = "build completed.",
-	NO_LINK_STR             = "no link given.",
 	CONTENT_TYPE_TEXT_PLAIN = constants.CONTENT_TYPE_TEXT_PLAIN,
 	STATUS_CODE_BAD         = constants.STATUS_CODE_BAD,
 	STATUS_CODE_OK          = constants.STATUS_CODE_OK,
+	NOT_SUPPORTED_STR       = "not supported yet.",
+	BUILD_COMPLETED_STR     = "build completed.",
+	NO_LINK_STR             = "no link given.",
 	COMMAND_BUILD           = "./imard-build ",
 	BUILD_PATH              = "test-build";
 

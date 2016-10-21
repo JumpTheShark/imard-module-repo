@@ -37,12 +37,12 @@ describe("Request compile", () => {
 				.expect(STATUS_CODE_BAD, done);
 		});
 
-		it(`returns code ${STATUS_CODE_OK} when sending a valid test link`, (done) => {
+		/*it(`returns code ${STATUS_CODE_OK} when sending a valid test link`, (done) => {
 			test(testServer)
 				.post("/compile")
-				.send("??") /* TODO give a real code link */
+				.send("??") /* TODO give a real code link
 				.expect(CONTENT_TYPE, TEXT_PLAIN)
 				.expect(STATUS_CODE_OK, done);
-		});
+		});*/
 	});
 });

@@ -30,28 +30,28 @@ describe("Request clone", () => {
 			testServer.close();
 		});
 
-		it(`returns code ${STATUS_CODE_BAD} with text when sending null link`, (done) => {
+		/*it(`returns code ${STATUS_CODE_BAD} with text when sending null link`, (done) => {
 			test(testServer)
 				.put("/clone-redirect")
 				.query({ link : null })
 				.expect(CONTENT_TYPE, TEXT_PLAIN)
 				.expect(STATUS_CODE_BAD, done);
-		});
+		});*/
 
-		it(`returns code ${STATUS_CODE_OK} when sending an empty link`, (done) => {
+		/*it(`returns code ${STATUS_CODE_OK} when sending an empty link`, (done) => {
 			test(testServer)
 				.put("/clone-redirect")
 				.query({ link : "" })
 				.expect(CONTENT_TYPE, TEXT_PLAIN)
 				.expect(STATUS_CODE_BAD, done);
-		});
+		});*/
 
-		it(`returns code ${STATUS_CODE_OK} when sending a valid test link`, (done) => {
+		/*it(`returns code ${STATUS_CODE_OK} when sending a valid test link`, (done) => {
 			test(testServer)
 				.put("/clone-redirect")
-				.query({ link : "blablabla" }) /* TODO give a real repo link */
+				.query({ link : "blablabla" }) /* TODO give a real repo link
 				.expect(CONTENT_TYPE, TEXT_PLAIN)
 				.expect(STATUS_CODE_OK, done);
-		});
+		});*/
 	});
 });
