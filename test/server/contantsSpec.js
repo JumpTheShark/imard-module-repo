@@ -11,7 +11,8 @@ const
 	CONTENT_TYPE_STR      = "Content-Type",
 	TEXT_PLAIN_STR        = "text/plain",
 	TEXT_HTML_STR         = "text/html",
-	TEST_PORT             = 8889;
+	COMMAND_RM_RF         = "rm -rf",
+	COMMAND_MKDIR         = "mkdir";
 
 describe("Constant ", () => {
 	it(`CONTENT_TYPE is equal to ${CONTENT_TYPE_STR}`, () => {
@@ -48,7 +49,11 @@ describe("Constant ", () => {
 		expect(constants.STATUS_CODE_NOT_FOUND).to.equal(STATUS_CODE_NOT_FOUND);
 	});
 
-	it(`TEST_PORT is equal to ${TEST_PORT}`, () => {
-		expect(constants.TEST_PORT).to.equal(TEST_PORT);
+	it(`COMMAND_RM_RF is equal to ${COMMAND_RM_RF}`, () => {
+		expect(constants.COMMAND_RM_RF).to.equal(COMMAND_RM_RF);
+	});
+
+	it(`COMMAND_MKDIR is equal to ${COMMAND_MKDIR}`, () => {
+		expect(constants.COMMAND_MKDIR).to.equal(COMMAND_MKDIR);
 	});
 });

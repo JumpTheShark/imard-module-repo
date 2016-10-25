@@ -1,5 +1,11 @@
-# test cloned repo
-test_repo
+# cloned repo
+.cloned-repo
+
+# built repo
+.build-repo
+
+# dolphin folder config file
+.directory
 
 # Logs
 logs

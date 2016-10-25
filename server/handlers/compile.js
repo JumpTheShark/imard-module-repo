@@ -26,11 +26,10 @@ const
 	CONTENT_TYPE_TEXT_PLAIN = constants.CONTENT_TYPE_TEXT_PLAIN,
 	STATUS_CODE_BAD         = constants.STATUS_CODE_BAD,
 	STATUS_CODE_OK          = constants.STATUS_CODE_OK,
-	NOT_SUPPORTED_STR       = "not supported yet.",
+	COMMAND_BUILD           = constants.COMMAND_BUILD,
+	BUILD_PATH              = constants.BUILT_REPO_FOLDER_NAME,
 	BUILD_COMPLETED_STR     = "build completed.",
-	NO_LINK_STR             = "no link given.",
-	COMMAND_BUILD           = "./imard-build ",
-	BUILD_PATH              = "test-build";
+	NO_LINK_STR             = "no link given.";
 
 /**
  * The request itself. Creates useful data for the given new module (after cloning).
@@ -46,10 +45,10 @@ const compile = (inject, postData) => {
 		return;
 	}
 
-	exec(COMMAND_BUILD + postData + " " + BUILD_PATH, (_, out, err) => {
-		if (err === null) {
+	exec(`${COMMAND_BUILD} ${postData} ${BUILD_PATH}`, (_, out, err) => {
+		if (err === null || err === "") {
 			log(BUILD_COMPLETED_STR);
-			inject(STATUS_CODE_OK, CONTENT_TYPE_TEXT_PLAIN, NOT_SUPPORTED_STR);
+			inject(STATUS_CODE_OK, CONTENT_TYPE_TEXT_PLAIN, BUILD_COMPLETED_STR);
 		} else
 			inject(STATUS_CODE_BAD, CONTENT_TYPE_TEXT_PLAIN, `error: ${out}`);
 	});

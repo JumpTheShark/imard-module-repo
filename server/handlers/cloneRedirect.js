@@ -13,9 +13,8 @@
  * @since < 10.16.16
  */
 const
-	queryString = require("querystring"),
-	request     = require("request"),
-	constants   = require("../constants");
+	request   = require("request"),
+	constants = require("../constants");
 
 /***
  * Constants.
@@ -47,12 +46,12 @@ const cloneRedirect = (inject, postData) => {
 			inject(STATUS_CODE_BAD, CONTENT_TYPE_TEXT_PLAIN, String(err));
 	};
 
-	if (postData === null)
+	if (postData === null || postData === "")
 		error(NO_LINK_STR, null, null);
 	else
 		request({
 			uri     : REDIRECT_URL,
-			qs      : { link : queryString.parse(postData).text },
+			qs      : { link : postData },
 			method  : PUT_STR,
 			timeout : REDIRECT_TIMEOUT
 		}, error);

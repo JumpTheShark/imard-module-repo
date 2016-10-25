@@ -55,5 +55,5 @@ const start = (inject) => {
  */
 exports = module.exports = {
 	start : start,
-//test 	BODY  : BODY /*$test$*/
+      	BODY  : BODY /*$test$*/
 };

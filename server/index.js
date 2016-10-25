@@ -1,5 +1,5 @@
 /****************************
- * The launcher point. Fills the handler for handling requests andd starts the server.
+ * The launcher point. Fills the handler for handling requests and starts the server.
  *
  * @author GlaDos
  * @since < 10.16.16
@@ -63,5 +63,5 @@ server.start(router.route, handle);
  */
 exports = module.exports = {
 	getDefaultServer : getDefaultServer,
-//test 	handle           : handle /*$test$*/
+   	handle           : handle /*$test$*/
 };

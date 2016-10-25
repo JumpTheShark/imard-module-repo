@@ -25,9 +25,9 @@ const
  * @since < 10.16.16
  */
 const
-	REDIRECT_URL            = "http://localhost:8888/compile",
-	REDIRECT_TIMEOUT        = 10000,
-	REPO_NAME               = "test_repo",
+	REDIRECT_URL            = `http://localhost:${constants.TEST_PORT}/compile`,
+	REDIRECT_TIMEOUT        = constants.REDIRECT_TIMEOUT,
+	REPO_NAME               = constants.CLONED_REPO_FOLDER_NAME,
 	REPO_CLONED_STR         = "Repository has been cloned.",
 	NO_LINK_STR             = "no link given to clone",
 	POST_STR                = "POST",

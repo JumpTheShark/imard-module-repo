@@ -25,11 +25,10 @@ const
  * @since < 10.16.16
  */
 const
-	injectGen         = constants.injectResponseGenerator,
-	PORT              = 8888,
-	ENCODING          = "utf8",
-	DATA_LISTENER_STR = "data",
-	END_LISTENER_STR  = "end";
+	PORT                  = constants.PORT,
+	ENCODING              =  "utf8",
+	DATA_LISTENER_STR     = "data",
+	END_LISTENER_STR      = "end";
 
 /**
  * Inject response generator. Generates an inject response function.
@@ -107,6 +106,8 @@ const serverGen = (route, handle) => {
 	for (const handler in handle.put)
 		app.put(handler, processor);
 
+	app.get("*", processor);
+
 	return app;
 };
 
@@ -132,5 +133,5 @@ exports = module.exports = {
 	injectResponseGenerator : injectResponseGenerator,
 	start                   : start,
 	serverGen               : serverGen,
-//test 	PORT                    : PORT /*$test$*/
+   	PORT                    : PORT /*$test$*/
 };
