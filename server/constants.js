@@ -23,7 +23,7 @@ const
 	STATUS_CODE_NOT_FOUND        = 404,
 	PORT                         = 8888,
 	TEST_PORT                    = 8889,
-	REDIRECT_TIMEOUT             = 10000,
+	REDIRECT_TIMEOUT             = 100000,
 	CLONED_REPO_FOLDER_NAME      = ".cloned-repo",
 	TEST_CLONED_REPO_FOLDER_NAME = ".test-cloned-repo",
 	BUILT_REPO_FOLDER_NAME       = ".built-repo",

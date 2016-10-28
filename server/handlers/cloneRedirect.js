@@ -23,7 +23,7 @@ const
  */
 const
 	REDIRECT_URL            = "http://localhost:8888/clone",
-	REDIRECT_TIMEOUT        = 10000,
+	REDIRECT_TIMEOUT        = constants.REDIRECT_TIMEOUT,
 	CONTENT_TYPE_TEXT_PLAIN = constants.CONTENT_TYPE_TEXT_PLAIN,
 	STATUS_CODE_BAD         = constants.STATUS_CODE_BAD,
 	PUT_STR                 = "PUT",
@@ -40,7 +40,7 @@ const
  */
 const cloneRedirect = (inject, postData) => {
 	const error = (err, resp, _) => {
-		if (resp !== null)
+		if (resp !== null && resp !== undefined)
 			inject(resp.statusCode, resp.headers, resp.body);
 		else
 			inject(STATUS_CODE_BAD, CONTENT_TYPE_TEXT_PLAIN, String(err));

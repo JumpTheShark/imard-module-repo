@@ -31,7 +31,9 @@ const
 	BUILD_PATH              = constants.BUILT_REPO_FOLDER_NAME,
 	BUILD_COMPLETED_STR     = "build completed.",
 	NO_LINK_STR             = "no link given.",
-	PICKING_ERROR_STR       = "error while picking module file into the storage";
+	PICKING_ERROR_STR       = "error while picking module file into the storage",
+	GET_NAME_ERROR_STR      = "error while getting cloned module file name",
+	PUT_DB_ERROR_STR        = "error while inserting cloned module file to the data base";
 
 /**
  * The request itself. Creates useful data for the given new module (after cloning).
@@ -53,8 +55,24 @@ const compile = (inject, postData) => {
 
 			utils.pickModuleData().then(
 				() => {
-					utils.removeBuiltRepo();
-					inject(STATUS_CODE_OK, CONTENT_TYPE_TEXT_PLAIN, BUILD_COMPLETED_STR);
+					utils.clonedModuleName().then(
+						(moduleName) => {
+							utils.addModuleToDB(moduleName).then(
+								() => {
+									utils.removeBuiltRepo();
+									inject(STATUS_CODE_OK, CONTENT_TYPE_TEXT_PLAIN, BUILD_COMPLETED_STR);
+								},
+								() => {
+									utils.removeBuiltRepo();
+									inject(STATUS_CODE_BAD, CONTENT_TYPE_TEXT_PLAIN, PUT_DB_ERROR_STR);
+								}
+							);
+						},
+						() => {
+							utils.removeBuiltRepo();
+							inject(STATUS_CODE_BAD, CONTENT_TYPE_TEXT_PLAIN, GET_NAME_ERROR_STR);
+						}
+					);
 				},
 				() => {
 					inject(STATUS_CODE_BAD, CONTENT_TYPE_TEXT_PLAIN, PICKING_ERROR_STR);
