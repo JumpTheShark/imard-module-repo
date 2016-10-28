@@ -133,5 +133,5 @@ exports = module.exports = {
 	injectResponseGenerator : injectResponseGenerator,
 	start                   : start,
 	serverGen               : serverGen,
-   	PORT                    : PORT /*$test$*/
+	PORT                    : PORT /*$test$*/
 };

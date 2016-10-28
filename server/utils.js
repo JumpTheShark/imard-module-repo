@@ -14,7 +14,7 @@
  */
 const
 	constants = require("./constants"),
-	execSync  = require("child_process").execSync;
+	exec      = require("child_process").exec;
 
 /***
  * Constants.
@@ -22,9 +22,15 @@ const
  * @since 25.10.16
  */
 const
-	COMMAND_RM_RF = constants.COMMAND_RM_RF,
-	CLONED_FOLDER = constants.CLONED_REPO_FOLDER_NAME,
-	BUILT_FOLDER  = constants.BUILT_REPO_FOLDER_NAME;
+	COMMAND_RM_RF  = constants.COMMAND_RM_RF,
+	COMMAND_COPY   = constants.COMMAND_COPY,
+	COMMAND_FIND   = constants.COMMAND_FIND,
+	CLONED_FOLDER  = constants.CLONED_REPO_FOLDER_NAME,
+	BUILT_FOLDER   = constants.BUILT_REPO_FOLDER_NAME,
+	COPY_FROM_PATH = "./.built-repo/module/",
+	COPY_TO_PATH   = "./modules/",
+	FILE_PATTERN   = "module-[0-9]*",
+	FILTER_PATTERN = " | xargs -n 1 basename";
 
 /**
  * Removes folder (if exists) which contains the cloned repository
@@ -32,16 +38,15 @@ const
  * @return {bool} whether the folder was removed
  * @since 25.10.16
  */
-const removeClonedRepo = () => {
-	let res = false;
+const removeClonedRepo = () =>
+	new Promise((resolve, reject) => {
+		exec(`${COMMAND_RM_RF} ${CLONED_FOLDER}`, (_, out, err) => {
+			if (err !== null && err !== "")
+				reject();
 
-	execSync(`${COMMAND_RM_RF} ${CLONED_FOLDER}`, (_, out, err) => {
-		console.log("ANDDDDDDD??!!");
-		res = err === null || err === "";
+			resolve();
+		});
 	});
-	console.log("LASTTTTT!!");
-	return res;
-};
 
 /**
  * Removes folder (if exists) which contains the built repository
@@ -49,15 +54,15 @@ const removeClonedRepo = () => {
  * @return {bool} whether the folder was removed
  * @since 25.10.16
  */
-const removeBuiltRepo = () => {
-	let res = false;
+const removeBuiltRepo = () =>
+	new Promise((resolve, reject) => {
+		exec(`${COMMAND_RM_RF} ${BUILT_FOLDER}`, (_, out, err) => {
+			if (err !== null && err !== "")
+				reject();
 
-	execSync(`${COMMAND_RM_RF} ${BUILT_FOLDER}`, (_, out, err) => {
-		res = err === null || err === "";
+			resolve();
+		});
 	});
-
-	return res;
-};
 
 /**
  * Removes both folders (if exist) with cloned and built repository
@@ -65,13 +70,53 @@ const removeBuiltRepo = () => {
  * @return {bool} whether at least one of two folders was removed
  * @since 25.10.16
  */
-const removeClonedAndBuiltRepo = () => {
-	const
-		b1 = removeClonedRepo(),
-		b2 = removeBuiltRepo();
+const removeClonedAndBuiltRepo = () =>
+	new Promise((resolve, reject) => {
+		removeClonedRepo(
+			() => {
+				removeBuiltRepo(
+					() => {
+						resolve();
+					},
+					() => {
+						resolve();
+					}
+				);
+			},
+			() => {
+				removeBuiltRepo(
+					() => {
+						resolve();
+					},
+					() => {
+						reject();
+					}
+				);
+			});
+	});
 
-	return b1 || b2;
-};
+/**
+ * Picks and copies the module data from the folder with built module to the constantly defined folder
+ *
+ * @return {bool} whether the module data was copied
+ * @since 26.10.16
+ */
+const pickModuleData = () =>
+	new Promise((resolve, reject) => {
+		exec(`${COMMAND_FIND} ${COPY_FROM_PATH}${FILE_PATTERN}${FILTER_PATTERN}`, (_, out, err) => {
+			if (err !== null && err !== "")
+				reject();
+
+			const moduleName = out.substr(0, out.length - 1);
+
+			exec(`${COMMAND_COPY} ${COPY_FROM_PATH}${moduleName} ${COPY_TO_PATH}${moduleName}`, (__, out2, err2) => {
+				if (err2 !== null && err2 !== "")
+					reject();
+
+				resolve();
+			});
+		});
+	});
 
 /***
  * Exports.
@@ -81,5 +126,6 @@ const removeClonedAndBuiltRepo = () => {
 exports = module.exports = {
 	removeClonedRepo         : removeClonedRepo,
 	removeBuiltRepo          : removeBuiltRepo,
-	removeClonedAndBuiltRepo : removeClonedAndBuiltRepo
+	removeClonedAndBuiltRepo : removeClonedAndBuiltRepo,
+	pickModuleData           : pickModuleData
 };

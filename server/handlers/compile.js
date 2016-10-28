@@ -15,7 +15,8 @@
 const
 	exec      = require("child_process").exec,
 	log       = require("../../self_modules/logger/logger").log,
-	constants = require("../constants");
+	constants = require("../constants"),
+	utils     = require("../utils");
 
 /***
  * Constants.
@@ -29,7 +30,8 @@ const
 	COMMAND_BUILD           = constants.COMMAND_BUILD,
 	BUILD_PATH              = constants.BUILT_REPO_FOLDER_NAME,
 	BUILD_COMPLETED_STR     = "build completed.",
-	NO_LINK_STR             = "no link given.";
+	NO_LINK_STR             = "no link given.",
+	PICKING_ERROR_STR       = "error while picking module file into the storage";
 
 /**
  * The request itself. Creates useful data for the given new module (after cloning).
@@ -48,7 +50,15 @@ const compile = (inject, postData) => {
 	exec(`${COMMAND_BUILD} ${postData} ${BUILD_PATH}`, (_, out, err) => {
 		if (err === null || err === "") {
 			log(BUILD_COMPLETED_STR);
-			inject(STATUS_CODE_OK, CONTENT_TYPE_TEXT_PLAIN, BUILD_COMPLETED_STR);
+
+			utils.pickModuleData().then(
+				() => {
+					utils.removeBuiltRepo();
+					inject(STATUS_CODE_OK, CONTENT_TYPE_TEXT_PLAIN, BUILD_COMPLETED_STR);
+				},
+				() => {
+					inject(STATUS_CODE_BAD, CONTENT_TYPE_TEXT_PLAIN, PICKING_ERROR_STR);
+				});
 		} else
 			inject(STATUS_CODE_BAD, CONTENT_TYPE_TEXT_PLAIN, `error: ${out}`);
 	});

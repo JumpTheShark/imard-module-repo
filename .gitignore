@@ -2,7 +2,7 @@
 .cloned-repo
 
 # built repo
-.build-repo
+.built-repo
 
 # dolphin folder config file
 .directory

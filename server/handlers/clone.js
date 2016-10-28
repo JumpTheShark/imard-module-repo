@@ -13,11 +13,12 @@
  * @since < 10.16.16
  */
 const
-	queryString = require("querystring"),
-	git         = require("nodegit"),
-	request     = require("request"),
-	log         = require("../../self_modules/logger/logger").log,
-	constants   = require("../constants");
+	queryString      = require("querystring"),
+	git              = require("nodegit"),
+	request          = require("request"),
+	log              = require("../../self_modules/logger/logger").log,
+	constants        = require("../constants"),
+	removeClonedRepo = require("../utils").removeClonedRepo;
 
 /***
  * Constants.
@@ -25,7 +26,7 @@ const
  * @since < 10.16.16
  */
 const
-	REDIRECT_URL            = `http://localhost:${constants.TEST_PORT}/compile`,
+	COMPILE_URL             = `http://localhost:${constants.PORT}/compile`,
 	REDIRECT_TIMEOUT        = constants.REDIRECT_TIMEOUT,
 	REPO_NAME               = constants.CLONED_REPO_FOLDER_NAME,
 	REPO_CLONED_STR         = "Repository has been cloned.",
@@ -47,6 +48,8 @@ const clone = (inject, params) => {
 	let outString = "";
 
 	const reply = (err, resp, body) => {
+		removeClonedRepo();
+
 		if (err === null && resp !== null && resp.statusCode === STATUS_CODE_OK)
 			inject(
 				STATUS_CODE_OK,
@@ -57,7 +60,7 @@ const clone = (inject, params) => {
 			inject(
 				STATUS_CODE_BAD,
 				CONTENT_TYPE_TEXT_PLAIN,
-				outString + `compiled: false ${body === null ? "\n" : `(${body})\n`}`
+				outString + `compiled: false ${body === null || body === undefined ? `(${err})\n` : `(${body})\n`}`
 			);
 	};
 
@@ -66,7 +69,14 @@ const clone = (inject, params) => {
 		return;
 	}
 
-	const link = queryString.parse(params).link;
+	const bufLink = queryString.parse(params).link;
+
+	if (bufLink === undefined) {
+		reply(null, null, NO_LINK_STR);
+		return;
+	}
+
+	const link = queryString.parse(bufLink).text;
 
 	if (link === undefined) {
 		reply(null, null, NO_LINK_STR);
@@ -81,7 +91,7 @@ const clone = (inject, params) => {
 			outString += "cloned: true\n";
 
 			request({
-				uri:     REDIRECT_URL,
+				uri:     COMPILE_URL,
 				method:  POST_STR,
 				body:    REPO_NAME,
 				timeout: REDIRECT_TIMEOUT

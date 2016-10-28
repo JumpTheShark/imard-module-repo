@@ -28,9 +28,12 @@ const
 	TEST_CLONED_REPO_FOLDER_NAME = ".test-cloned-repo",
 	BUILT_REPO_FOLDER_NAME       = ".built-repo",
 	TEST_REPO_ADDRESS            = "https://github.com/JumpTheShark/imard-exemplary-module",
+	MODULE_FOLDER                = "modules",
 	COMMAND_BUILD                = "./imard-build",
 	COMMAND_RM_RF                = "rm -rf",
-	COMMAND_MKDIR                = "mkdir";
+	COMMAND_MKDIR                = "mkdir",
+	COMMAND_COPY                 = "cp",
+	COMMAND_FIND                 = "ls";
 
 CONTENT_TYPE_TEXT_PLAIN[CONTENT_TYPE] = TEXT_PLAIN;
 CONTENT_TYPE_TEXT_HTML[CONTENT_TYPE]  = TEXT_HTML;
@@ -56,7 +59,10 @@ exports = module.exports = {
 	TEST_CLONED_REPO_FOLDER_NAME : TEST_CLONED_REPO_FOLDER_NAME,
 	BUILT_REPO_FOLDER_NAME       : BUILT_REPO_FOLDER_NAME,
 	TEST_REPO_ADDRESS            : TEST_REPO_ADDRESS,
+	MODULE_FOLDER                : MODULE_FOLDER,
 	COMMAND_BUILD                : COMMAND_BUILD,
 	COMMAND_RM_RF                : COMMAND_RM_RF,
-	COMMAND_MKDIR                : COMMAND_MKDIR
+	COMMAND_MKDIR                : COMMAND_MKDIR,
+	COMMAND_COPY                 : COMMAND_COPY,
+	COMMAND_FIND                 : COMMAND_FIND
 };

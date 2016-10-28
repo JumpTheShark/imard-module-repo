@@ -39,8 +39,10 @@
   },
   "dependencies": {
     "express": "^4.14.0",
+    "forever": "^0.15.2",
+    "imard-builder": "git@github.com:JumpTheShark/imard-module-builder.git",
+    "mongodb": "^2.2.11",
     "nodegit": "^0.16.0",
-    "request": "^2.75.0",
-    "imard-builder": "git@github.com:JumpTheShark/imard-module-builder.git"
+    "request": "^2.75.0"
   }
 }
