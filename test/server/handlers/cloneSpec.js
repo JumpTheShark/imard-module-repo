@@ -5,7 +5,6 @@ const
 	expect    = require("chai").expect,
 	test      = require("supertest"),
 	constants = require("../../../server/constants"),
-	clean     = require("../../../server/utils").removeClonedAndBuiltRepo,
 	index     = require("../../../server/index");
 
 const
@@ -25,13 +24,13 @@ describe("Request clone", () => {
 		let testServer = null;
 
 		before(() => {
-			clean();
+			global.config.setPort(global.TEST_PORT);
 			testServer = index.getDefaultServer().listen(constants.TEST_PORT);
 		});
 
 		after(() => {
 			testServer.close();
-			clean();
+			global.config.setPort(global.DEFAULT_PORT);
 		});
 
 		it(`returns code ${STATUS_CODE_BAD} with text when sending null link`, (done) => {

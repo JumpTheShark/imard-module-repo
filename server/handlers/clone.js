@@ -18,6 +18,7 @@ const
 	request          = require("request"),
 	log              = require("../../self_modules/logger/logger").log,
 	constants        = require("../constants"),
+	global           = require("../GlobalConfiguraition"),
 	removeClonedRepo = require("../utils").removeClonedRepo;
 
 /***
@@ -26,7 +27,7 @@ const
  * @since < 10.16.16
  */
 const
-	COMPILE_URL             = `http://localhost:${constants.PORT}/compile`,
+	COMPILE_URL             = `http://localhost:${global.config.getPort()}/compile`,
 	REDIRECT_TIMEOUT        = constants.REDIRECT_TIMEOUT,
 	REPO_NAME               = constants.CLONED_REPO_FOLDER_NAME,
 	REPO_CLONED_STR         = "Repository has been cloned.",
@@ -48,8 +49,6 @@ const clone = (inject, params) => {
 	let outString = "";
 
 	const reply = (err, resp, body) => {
-		removeClonedRepo();
-
 		if (err === null && resp !== null && resp.statusCode === STATUS_CODE_OK)
 			inject(
 				STATUS_CODE_OK,
@@ -82,6 +81,8 @@ const clone = (inject, params) => {
 		reply(null, null, NO_LINK_STR);
 		return;
 	}
+
+	removeClonedRepo().then(() => {}, () => {});
 
 	/* eslint-disable new-cap */
 

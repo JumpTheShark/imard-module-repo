@@ -5,7 +5,6 @@ const
 	expect    = require("chai").expect,
 	test      = require("supertest"),
 	constants = require("../../../server/constants"),
-	clean     = require("../../../server/utils").removeBuiltRepo,
 	index     = require("../../../server/index");
 
 const
@@ -24,13 +23,11 @@ describe("Request compile", () => {
 		let testServer = null;
 
 		before(() => {
-			clean();
 			testServer = index.getDefaultServer().listen(constants.TEST_PORT);
 		});
 
 		after(() => {
 			testServer.close();
-			clean();
 		});
 
 		it(`returns code ${STATUS_CODE_BAD} text when sending no link`, (done) => {

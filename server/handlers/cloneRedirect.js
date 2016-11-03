@@ -14,7 +14,9 @@
  */
 const
 	request   = require("request"),
-	constants = require("../constants");
+	constants = require("../constants"),
+	global    = require("../GlobalConfiguraition");
+
 
 /***
  * Constants.
@@ -22,7 +24,7 @@ const
  * @since < 10.16.16
  */
 const
-	REDIRECT_URL            = "http://localhost:8888/clone",
+	REDIRECT_URL            = `http://localhost:${global.config.getPort()}/clone`,
 	REDIRECT_TIMEOUT        = constants.REDIRECT_TIMEOUT,
 	CONTENT_TYPE_TEXT_PLAIN = constants.CONTENT_TYPE_TEXT_PLAIN,
 	STATUS_CODE_BAD         = constants.STATUS_CODE_BAD,

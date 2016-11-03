@@ -49,6 +49,8 @@ const compile = (inject, postData) => {
 		return;
 	}
 
+	utils.removeBuiltRepo().then(() => {}, () => {});
+
 	exec(`${COMMAND_BUILD} ${postData} ${BUILD_PATH}`, (_, out, err) => {
 		if (err === null || err === "") {
 			log(BUILD_COMPLETED_STR);
@@ -59,17 +61,14 @@ const compile = (inject, postData) => {
 						(moduleName) => {
 							utils.addModuleToDB(moduleName).then(
 								() => {
-									utils.removeBuiltRepo();
 									inject(STATUS_CODE_OK, CONTENT_TYPE_TEXT_PLAIN, BUILD_COMPLETED_STR);
 								},
 								() => {
-									utils.removeBuiltRepo();
 									inject(STATUS_CODE_BAD, CONTENT_TYPE_TEXT_PLAIN, PUT_DB_ERROR_STR);
 								}
 							);
 						},
 						() => {
-							utils.removeBuiltRepo();
 							inject(STATUS_CODE_BAD, CONTENT_TYPE_TEXT_PLAIN, GET_NAME_ERROR_STR);
 						}
 					);

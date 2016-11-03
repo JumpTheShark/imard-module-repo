@@ -30,10 +30,11 @@ const
 	TEST_REPO_ADDRESS            = "https://github.com/JumpTheShark/imard-exemplary-module",
 	MODULE_FOLDER                = "modules",
 	COMMAND_BUILD                = "./imard-build",
-	COMMAND_RM_RF                = "rm -rf",
+	COMMAND_RM_R                 = "rm -r",
 	COMMAND_MKDIR                = "mkdir",
 	COMMAND_COPY                 = "cp",
-	COMMAND_FIND                 = "ls";
+	COMMAND_LS                   = "ls",
+	COMMAND_FIND                 = "find";
 
 CONTENT_TYPE_TEXT_PLAIN[CONTENT_TYPE] = TEXT_PLAIN;
 CONTENT_TYPE_TEXT_HTML[CONTENT_TYPE]  = TEXT_HTML;
@@ -61,8 +62,9 @@ exports = module.exports = {
 	TEST_REPO_ADDRESS            : TEST_REPO_ADDRESS,
 	MODULE_FOLDER                : MODULE_FOLDER,
 	COMMAND_BUILD                : COMMAND_BUILD,
-	COMMAND_RM_RF                : COMMAND_RM_RF,
+	COMMAND_RM_R                 : COMMAND_RM_R,
 	COMMAND_MKDIR                : COMMAND_MKDIR,
 	COMMAND_COPY                 : COMMAND_COPY,
+	COMMAND_LS                   : COMMAND_LS,
 	COMMAND_FIND                 : COMMAND_FIND
 };

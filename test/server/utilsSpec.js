@@ -4,95 +4,135 @@ const
 	utils     = require("../../server/utils"),
 	constants = require("../../server/constants"),
 	exec      = require("child_process").exec,
-	expect    = require("chai").expect;
+	assert    = require("assert");
 
-const clearCloned = () => {
-	exec(constants.COMMAND_RM_RF + " " + constants.CLONED_REPO_FOLDER_NAME, (_, __, err) => {
+const clearCloned = () =>
+	new Promise((resolve, reject) => {
+		exec(constants.COMMAND_RM_R + " " + constants.CLONED_REPO_FOLDER_NAME, (_, __, err) => {
+			resolve();
+		});
 	});
-};
 
-const clearBuilt = () => {
-	exec(constants.COMMAND_RM_RF + " " + constants.BUILT_REPO_FOLDER_NAME, (_, __, err) => {
+const clearBuilt = () =>
+	new Promise((resolve, reject) => {
+		exec(constants.COMMAND_RM_R + " " + constants.BUILT_REPO_FOLDER_NAME, (_, __, err) => {
+			resolve();
+		});
 	});
-};
 
-const clearAll = () => {
-	clearCloned();
-	clearBuilt();
-};
+const clearAll = () =>
+	new Promise((resolve, reject) => {
+		clearCloned().then(
+			() => {
+				clearBuilt().then(resolve, resolve);
+			},
+			() => {
+				clearBuilt().then(resolve, resolve);
+			});
+	});
 
 describe("Utility", () => {
 	describe("remove cloned repo", () => {
-		beforeEach(() => {
-			clearCloned();
+		beforeEach((done) => {
+			clearCloned().then(done, done);
 		});
 
-		afterEach(() => {
-			clearCloned();
+		afterEach((done) => {
+			clearCloned().then(done, done);
 		});
 
-		it("removes the folder with cloned repo", () => {
+		it("removes the folder with cloned repo", (done) => {
 			exec(constants.COMMAND_MKDIR + " " + constants.CLONED_REPO_FOLDER_NAME, (_, __, err) => {
-				expect(utils.removeClonedRepo()).to.equal(true);
+				assert(err === null || err === "");
+
+				utils.removeClonedRepo().then(done, done);
 			});
 		});
 
-		it("returns false if the folder with cloned repo not exist", () => {
-			expect(utils.removeClonedRepo()).to.equal(false);
+		it("goes to the reject branch if the folder with cloned repo not exist", (done) => {
+			utils.removeClonedRepo().then(
+				() => {
+					done("true");
+				},
+				() => {
+					done();
+				});
 		});
 	});
 
 	describe("remove built repo", () => {
-		beforeEach(() => {
-			clearBuilt();
+		beforeEach((done) => {
+			clearBuilt().then(done, done);
 		});
 
-		afterEach(() => {
-			clearBuilt();
+		afterEach((done) => {
+			clearBuilt().then(done, done);
 		});
 
-		it("removes the folder with built repo", () => {
+		it("removes the folder with built repo", (done) => {
 			exec(constants.COMMAND_MKDIR + " " + constants.BUILT_REPO_FOLDER_NAME, (_, __, err) => {
-				expect(utils.removeBuiltRepo()).to.equal(true);
+				assert(err === null || err === "");
+
+				utils.removeBuiltRepo().then(done, done);
 			});
 		});
 
-		it("returns false if the folder with built repo not exist", () => {
-			expect(utils.removeBuiltRepo()).to.equal(false);
+		it("goes to the reject branch if the folder with built repo not exist", (done) => {
+			utils.removeBuiltRepo().then(
+				() => {
+					done("true");
+				},
+				() => {
+					done();
+				});
 		});
 	});
 
 	describe("remove cloned and built repo", () => {
-		beforeEach(() => {
-			clearAll();
+		beforeEach((done) => {
+			clearAll().then(done, done);
 		});
 
-		afterEach(() => {
-			clearAll();
+		afterEach((done) => {
+			clearAll().then(done, done);
 		});
 
-		it("removes the folders with cloned and built repo", () => {
+		it("removes the folders with cloned and built repo", (done) => {
 			exec(constants.COMMAND_MKDIR + " " + constants.CLONED_REPO_FOLDER_NAME, (_, __, err) => {
-				exec(constants.COMMAND_MKDIR + " " + constants.BUILT_REPO_FOLDER_NAME, (_, __, err2) => {
-					expect(utils.removeClonedAndBuiltRepo()).to.equal(true);
+				assert(err === null || err === "");
+
+				exec(constants.COMMAND_MKDIR + " " + constants.BUILT_REPO_FOLDER_NAME, (___, ____, err2) => {
+					assert(err2 === null || err2 === "");
+
+					utils.removeClonedAndBuiltRepo().then(done, done);
 				});
 			});
 		});
 
-		it("returns true if the folder with cloned repo exists, but with built does not", () => {
+		it("goes to the resolve branch if the folder with cloned repo exists, but with built does not", (done) => {
 			exec(constants.COMMAND_MKDIR + " " + constants.CLONED_REPO_FOLDER_NAME, (_, __, err) => {
-				expect(utils.removeClonedAndBuiltRepo()).to.equal(true);
+				assert(err === null || err === "");
+
+				utils.removeClonedAndBuiltRepo().then(done, done);
 			});
 		});
 
-		it("returns true if the folder with cloned repo does not exist, but with built does", () => {
+		it("goes to the resolve branch if the folder with cloned repo does not exist, but with built does", (done) => {
 			exec(constants.COMMAND_MKDIR + " " + constants.BUILT_REPO_FOLDER_NAME, (_, __, err) => {
-				expect(utils.removeClonedAndBuiltRepo()).to.equal(true);
+				assert(err === null || err === "");
+
+				utils.removeClonedAndBuiltRepo().then(done, done);
 			});
 		});
 
-		it("returns false if both cloned and built repository folders do not exist", () => {
-			expect(utils.removeClonedAndBuiltRepo()).to.equal(false);
+		it("goes to the reject branch if both cloned and built repository folders do not exist", (done) => {
+			utils.removeClonedAndBuiltRepo().then(
+				() => {
+					done("true");
+				},
+				() => {
+					done();
+				});
 		});
 	});
 });

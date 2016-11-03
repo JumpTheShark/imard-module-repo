@@ -26,15 +26,16 @@ const
  * @since 25.10.16
  */
 const
-	COMMAND_RM_RF  = constants.COMMAND_RM_RF,
+	COMMAND_RM_R   = constants.COMMAND_RM_R,
 	COMMAND_COPY   = constants.COMMAND_COPY,
-	COMMAND_FIND   = constants.COMMAND_FIND,
+	COMMAND_LS     = constants.COMMAND_LS,
 	CLONED_FOLDER  = constants.CLONED_REPO_FOLDER_NAME,
 	BUILT_FOLDER   = constants.BUILT_REPO_FOLDER_NAME,
 	COPY_FROM_PATH = "./.built-repo/module/",
 	COPY_TO_PATH   = "./modules/",
 	FILE_PATTERN   = "module-[0-9]*",
-	FILTER_PATTERN = " | xargs -n 1 basename";
+	FILTER_PATTERN = " | xargs -n 1 basename",
+	MONGO_DB       = "mongodb://localhost:27017/imard-module-db";
 
 /**
  * Removes folder (if exists) which contains the cloned repository.
@@ -44,9 +45,9 @@ const
  */
 const removeClonedRepo = () =>
 	new Promise((resolve, reject) => {
-		exec(`${COMMAND_RM_RF} ${CLONED_FOLDER}`, (_, out, err) => {
+		exec(`${COMMAND_RM_R} ${CLONED_FOLDER}`, (_, out, err) => {
 			if (err !== null && err !== "")
-				reject();
+				reject(err);
 
 			resolve();
 		});
@@ -60,9 +61,9 @@ const removeClonedRepo = () =>
  */
 const removeBuiltRepo = () =>
 	new Promise((resolve, reject) => {
-		exec(`${COMMAND_RM_RF} ${BUILT_FOLDER}`, (_, out, err) => {
+		exec(`${COMMAND_RM_R} ${BUILT_FOLDER}`, (_, out, err) => {
 			if (err !== null && err !== "")
-				reject();
+				reject(err);
 
 			resolve();
 		});
@@ -76,9 +77,9 @@ const removeBuiltRepo = () =>
  */
 const removeClonedAndBuiltRepo = () =>
 	new Promise((resolve, reject) => {
-		removeClonedRepo(
+		removeClonedRepo().then(
 			() => {
-				removeBuiltRepo(
+				removeBuiltRepo().then(
 					() => {
 						resolve();
 					},
@@ -87,13 +88,13 @@ const removeClonedAndBuiltRepo = () =>
 					}
 				);
 			},
-			() => {
-				removeBuiltRepo(
+			(err1) => {
+				removeBuiltRepo().then(
 					() => {
 						resolve();
 					},
-					() => {
-						reject();
+					(err2) => {
+						reject(err1 + " | " + err2);
 					}
 				);
 			});
@@ -107,7 +108,7 @@ const removeClonedAndBuiltRepo = () =>
  */
 const clonedModuleName = () =>
 	new Promise((resolve, reject) => {
-		exec(`${COMMAND_FIND} ${COPY_FROM_PATH}${FILE_PATTERN}${FILTER_PATTERN}`, (_, out, err) => {
+		exec(`${COMMAND_LS} ${COPY_FROM_PATH}${FILE_PATTERN}${FILTER_PATTERN}`, (_, out, err) => {
 			if (err !== null && err !== "")
 				reject();
 
@@ -145,7 +146,7 @@ const pickModuleData = () =>
 const addModuleToDB = (name) =>
 	new Promise((resolve, reject) => {
 		co(function *() {
-			const db = yield MongoClient.connect("mongodb://localhost:27017/imard-module-db");
+			const db = yield MongoClient.connect(MONGO_DB);
 
 			log("Connected correctly to data base");
 

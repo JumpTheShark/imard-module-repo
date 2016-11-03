@@ -16,7 +16,7 @@
 const InnerResponse = class {
 
 	/**
-	 * Creates an inner response by the given status code, content type and body
+	 * Creates an inner response by the given status code, content type and body.
 	 *
 	 * @param {int} statusCode status code (can not be null)
 	 * @param {string} contentType content type (can not be null)

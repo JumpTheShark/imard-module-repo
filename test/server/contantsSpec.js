@@ -11,7 +11,7 @@ const
 	CONTENT_TYPE_STR      = "Content-Type",
 	TEXT_PLAIN_STR        = "text/plain",
 	TEXT_HTML_STR         = "text/html",
-	COMMAND_RM_RF         = "rm -rf",
+	COMMAND_RM_R          = "rm -r",
 	COMMAND_MKDIR         = "mkdir";
 
 describe("Constant ", () => {
@@ -49,8 +49,8 @@ describe("Constant ", () => {
 		expect(constants.STATUS_CODE_NOT_FOUND).to.equal(STATUS_CODE_NOT_FOUND);
 	});
 
-	it(`COMMAND_RM_RF is equal to ${COMMAND_RM_RF}`, () => {
-		expect(constants.COMMAND_RM_RF).to.equal(COMMAND_RM_RF);
+	it(`COMMAND_RM_RF is equal to ${COMMAND_RM_R}`, () => {
+		expect(constants.COMMAND_RM_R).to.equal(COMMAND_RM_R);
 	});
 
 	it(`COMMAND_MKDIR is equal to ${COMMAND_MKDIR}`, () => {
