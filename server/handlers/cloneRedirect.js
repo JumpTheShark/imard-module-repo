@@ -42,13 +42,13 @@ const
  */
 const cloneRedirect = (inject, postData) => {
 	const error = (err, resp, _) => {
-		if (resp !== null && resp !== undefined)
+		if (resp)
 			inject(resp.statusCode, resp.headers, resp.body);
 		else
 			inject(STATUS_CODE_BAD, CONTENT_TYPE_TEXT_PLAIN, String(err));
 	};
 
-	if (postData === null || postData === "")
+	if (!postData)
 		error(NO_LINK_STR, null, null);
 	else
 		request({
