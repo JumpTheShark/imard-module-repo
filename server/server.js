@@ -17,7 +17,7 @@ const
 	express       = require("express"),
 	url           = require("url"),
 	log           = require("../self_modules/logger/logger").log,
-	getPort       = require("./GlobalConfiguraition").config.getPort;
+	config        = require("./GlobalConfiguraition").config;
 
 /***
  * Constants.
@@ -96,6 +96,8 @@ const serverGen = (route, handle) => {
 		});
 	};
 
+	/* TODO normal express using */
+
 	for (const handler in handle.get)
 		app.get(handler, processor);
 
@@ -119,7 +121,7 @@ const serverGen = (route, handle) => {
  * @since < 10.16.16
  */
 const start = (route, handle) => {
-	const port = getPort();
+	const port = config.getPort();
 
 	serverGen(route, handle).listen(port);
 	log(`Server has started on the port ${port}.`);
@@ -134,5 +136,5 @@ exports = module.exports = {
 	injectResponseGenerator : injectResponseGenerator,
 	start                   : start,
 	serverGen               : serverGen,
-	PORT                    : getPort() /*$test$*/
+	PORT                    : config.getPort() /*$test$*/
 };

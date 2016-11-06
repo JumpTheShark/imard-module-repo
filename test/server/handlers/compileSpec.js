@@ -5,6 +5,7 @@ const
 	expect    = require("chai").expect,
 	test      = require("supertest"),
 	constants = require("../../../server/constants"),
+	global    = require("../../../server/GlobalConfiguraition"),
 	index     = require("../../../server/index");
 
 const
@@ -23,10 +24,12 @@ describe("Request compile", () => {
 		let testServer = null;
 
 		before(() => {
-			testServer = index.getDefaultServer().listen(constants.TEST_PORT);
+			global.config.setMode(global.MODE_TEST);
+			testServer = index.getDefaultServer().listen(global.config.getPort());
 		});
 
 		after(() => {
+			global.config.setMode(global.MODE_DEFAULT);
 			testServer.close();
 		});
 

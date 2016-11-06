@@ -34,7 +34,8 @@ const
 	COMMAND_MKDIR                = "mkdir",
 	COMMAND_COPY                 = "cp",
 	COMMAND_LS                   = "ls",
-	COMMAND_FIND                 = "find";
+	COMMAND_FIND                 = "find",
+	COMMAND_CAT                  = "cat";
 
 CONTENT_TYPE_TEXT_PLAIN[CONTENT_TYPE] = TEXT_PLAIN;
 CONTENT_TYPE_TEXT_HTML[CONTENT_TYPE]  = TEXT_HTML;
@@ -66,5 +67,6 @@ exports = module.exports = {
 	COMMAND_MKDIR                : COMMAND_MKDIR,
 	COMMAND_COPY                 : COMMAND_COPY,
 	COMMAND_LS                   : COMMAND_LS,
-	COMMAND_FIND                 : COMMAND_FIND
+	COMMAND_FIND                 : COMMAND_FIND,
+	COMMAND_CAT                  : COMMAND_CAT
 };

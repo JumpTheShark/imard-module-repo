@@ -20,9 +20,16 @@ const constants = require("./constants");
  * @since 28.10.16
  */
 const
-	PRODUCTION_PORT = constants.PORT,
-	TEST_PORT       = constants.TEST_PORT,
-	DEFAULT_PORT    = PRODUCTION_PORT;
+	MODE_PRODUCTION             = 0,
+	MODE_TEST                   = 1,
+	MODE_DEFAULT                = MODE_PRODUCTION,
+	PORT_PRODUCTION             = constants.PORT,
+	PORT_TEST                   = constants.TEST_PORT,
+	PORT_DEFAULT                = PORT_PRODUCTION,
+	CLONED_REPO_PATH_PRODUCTION = constants.CLONED_REPO_FOLDER_NAME,
+	CLONED_REPO_PATH_TEST       = constants.TEST_CLONED_REPO_FOLDER_NAME,
+	CLONED_REPO_PATH_DEFAULT    = CLONED_REPO_PATH_PRODUCTION;
+
 
 /**
  * Global configuration class.
@@ -39,7 +46,36 @@ const GlobalConfig = class {
 	 * @since 28.10.16
 	 */
 	constructor () {
-		this.port = DEFAULT_PORT;
+		this.port           = PORT_DEFAULT;
+		this.clonedRepoPath = CLONED_REPO_PATH_DEFAULT;
+
+		this.mode = MODE_DEFAULT;
+	}
+
+	/**
+	 * Sets the configuration mode.
+	 *
+	 * @param {int} mode configuration mode
+	 * @return {void} nothing
+	 * @since 03.11.16
+	 */
+	setMode (mode) {
+		switch (mode) {
+		case MODE_PRODUCTION:
+			this.port = PORT_PRODUCTION;
+			this.clonedRepoPath = CLONED_REPO_PATH_PRODUCTION;
+
+			break;
+		case MODE_TEST:
+			this.port = PORT_TEST;
+			this.clonedRepoPath = CLONED_REPO_PATH_TEST;
+
+			break;
+		default:
+			throw new Error(`invalid configuration mode: ${mode} (expected ${MODE_PRODUCTION} or ${MODE_TEST})`);
+		}
+
+		this.mode = mode;
 	}
 
 	/**
@@ -53,14 +89,13 @@ const GlobalConfig = class {
 	}
 
 	/**
-	 * Sets the server port.
+	 * Returns the path to the cloned repository folder (including the folder name).
 	 *
-	 * @param {int} port listening port
-	 * @return {null} nothing
-	 * @since 28.10.16
+	 * @return {string} path to the cloned repository folder
+	 * @since 03.11.16
 	 */
-	setPort (port) {
-		this.port = port;
+	getClonedRepoPath () {
+		return this.clonedRepoPath;
 	}
 };
 
@@ -79,7 +114,7 @@ const globalConfig = new GlobalConfig();
  */
 exports = module.exports = {
 	config          : globalConfig,
-	PRODUCTION_PORT : PRODUCTION_PORT,
-	TEST_PORT       : TEST_PORT,
-	DEFAULT_PORT    : DEFAULT_PORT
+	MODE_PRODUCTION : MODE_PRODUCTION,
+	MODE_TEST       : MODE_TEST,
+	MODE_DEFAULT    : MODE_DEFAULT
 };

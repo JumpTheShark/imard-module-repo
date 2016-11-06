@@ -25,9 +25,9 @@ const
  * @since < 10.16.16
  */
 const handle = {
-	get:  {},
-	post: {},
-	put:  {}
+	get  :  {},
+	post :  {},
+	put  :  {}
 };
 
 /**

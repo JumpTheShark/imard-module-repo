@@ -5,6 +5,7 @@ const
 	expect    = require("chai").expect,
 	test      = require("supertest"),
 	constants = require("../../../server/constants"),
+	global    = require("../../../server/GlobalConfiguraition"),
 	index     = require("../../../server/index");
 
 const
@@ -24,13 +25,13 @@ describe("Request clone", () => {
 		let testServer = null;
 
 		before(() => {
-			global.config.setPort(global.TEST_PORT);
+			global.config.setMode(global.MODE_TEST);
 			testServer = index.getDefaultServer().listen(constants.TEST_PORT);
 		});
 
 		after(() => {
 			testServer.close();
-			global.config.setPort(global.DEFAULT_PORT);
+			global.config.setMode(global.MODE_DEFAULT);
 		});
 
 		it(`returns code ${STATUS_CODE_BAD} with text when sending null link`, (done) => {

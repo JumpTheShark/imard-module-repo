@@ -3,6 +3,7 @@
 const
 	utils     = require("../../server/utils"),
 	constants = require("../../server/constants"),
+	global    = require("../../server/GlobalConfiguraition"),
 	exec      = require("child_process").exec,
 	assert    = require("assert");
 
@@ -133,6 +134,27 @@ describe("Utility", () => {
 				() => {
 					done();
 				});
+		});
+	});
+
+	describe("pick module JSON", () => {
+		before(() => {
+			global.config.setMode(global.MODE_TEST);
+		});
+
+		after(() => {
+			global.config.setMode(global.MODE_DEFAULT);
+		});
+
+		it("returns JSON data when the necessary file exist", (done) => {
+			utils.pickModuleJSON().then(
+				(json) => {
+					done();
+				},
+				(err) => {
+					done(err);
+				}
+			);
 		});
 	});
 });
