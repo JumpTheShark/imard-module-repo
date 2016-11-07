@@ -29,7 +29,7 @@ const
 		"</head>" +
 		"<body>" +
 		"<form action='/clone-redirect' method='post'>" +
-		"<textarea name='text' rows='20' cols='60'>" +
+		"<textarea name='link' rows='20' cols='60'>" +
 		"</textarea>" +
 		"<input type='submit' value='Clone repo' />" +
 		"</form>" +
@@ -55,5 +55,5 @@ const start = (inject) => {
  */
 exports = module.exports = {
 	start : start,
-	BODY  : BODY /*$test$*/
+                	BODY  : BODY /*$test$*/
 };

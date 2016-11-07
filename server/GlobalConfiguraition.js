@@ -28,7 +28,10 @@ const
 	PORT_DEFAULT                = PORT_PRODUCTION,
 	CLONED_REPO_PATH_PRODUCTION = constants.CLONED_REPO_FOLDER_NAME,
 	CLONED_REPO_PATH_TEST       = constants.TEST_CLONED_REPO_FOLDER_NAME,
-	CLONED_REPO_PATH_DEFAULT    = CLONED_REPO_PATH_PRODUCTION;
+	CLONED_REPO_PATH_DEFAULT    = CLONED_REPO_PATH_PRODUCTION,
+	BUILT_REPO_PATH_PRODUCTION  = constants.BUILT_REPO_FOLDER_NAME,
+	BUILT_REPO_PATH_TEST        = constants.TEST_BUILT_REPO_FOLDER_NAME,
+	BUILT_REPO_PATH_DEFAULT     = BUILT_REPO_PATH_PRODUCTION;
 
 
 /**
@@ -48,6 +51,7 @@ const GlobalConfig = class {
 	constructor () {
 		this.port           = PORT_DEFAULT;
 		this.clonedRepoPath = CLONED_REPO_PATH_DEFAULT;
+		this.builtRepoPath = BUILT_REPO_PATH_DEFAULT;
 
 		this.mode = MODE_DEFAULT;
 	}
@@ -62,13 +66,15 @@ const GlobalConfig = class {
 	setMode (mode) {
 		switch (mode) {
 		case MODE_PRODUCTION:
-			this.port = PORT_PRODUCTION;
+			this.port           = PORT_PRODUCTION;
 			this.clonedRepoPath = CLONED_REPO_PATH_PRODUCTION;
+			this.builtRepoPath  = BUILT_REPO_PATH_PRODUCTION;
 
 			break;
 		case MODE_TEST:
-			this.port = PORT_TEST;
+			this.port           = PORT_TEST;
 			this.clonedRepoPath = CLONED_REPO_PATH_TEST;
+			this.builtRepoPath  = BUILT_REPO_PATH_TEST;
 
 			break;
 		default:
@@ -76,6 +82,16 @@ const GlobalConfig = class {
 		}
 
 		this.mode = mode;
+	}
+
+	/**
+	 * Returns the configuration mode.
+	 *
+	 * @return {int} configuration mode
+	 * @since 07.11.16
+	 */
+	getMode () {
+		return this.mode;
 	}
 
 	/**
@@ -96,6 +112,16 @@ const GlobalConfig = class {
 	 */
 	getClonedRepoPath () {
 		return this.clonedRepoPath;
+	}
+
+	/**
+	 * Returns the path to the built repository folder (including the folder name).
+	 *
+	 * @return {string} path to the built repository folder
+	 * @since 06.11.16
+	 */
+	getBuiltRepoPath () {
+		return this.builtRepoPath;
 	}
 };
 

@@ -15,7 +15,6 @@
 const
 	queryString      = require("querystring"),
 	git              = require("nodegit"),
-	request          = require("request"),
 	log              = require("../../self_modules/logger/logger").log,
 	constants        = require("../constants"),
 	global           = require("../GlobalConfiguraition"),
@@ -27,12 +26,9 @@ const
  * @since < 10.16.16
  */
 const
-	COMPILE_URL             = `http://localhost:${global.config.getPort()}/compile`,
-	REDIRECT_TIMEOUT        = constants.REDIRECT_TIMEOUT,
 	REPO_NAME               = constants.CLONED_REPO_FOLDER_NAME,
 	REPO_CLONED_STR         = "Repository has been cloned.",
 	NO_LINK_STR             = "no link given to clone",
-	POST_STR                = "POST",
 	STATUS_CODE_OK          = constants.STATUS_CODE_OK,
 	STATUS_CODE_BAD         = constants.STATUS_CODE_BAD,
 	CONTENT_TYPE_TEXT_PLAIN = constants.CONTENT_TYPE_TEXT_PLAIN;
@@ -46,66 +42,37 @@ const
  * @since < 10.16.16
  */
 const clone = (inject, params) => {
-	let outString = "";
-
-	const reply = (err, resp, body) => {
-		if (err === null && resp !== null && resp.statusCode === STATUS_CODE_OK)
-			inject(
-				STATUS_CODE_OK,
-				CONTENT_TYPE_TEXT_PLAIN,
-				outString + "compiled: true\n"
-			);
-		else
-			inject(
-				STATUS_CODE_BAD,
-				CONTENT_TYPE_TEXT_PLAIN,
-				outString + `compiled: false ${body === null || body === undefined ? `(${err})\n` : `(${body})\n`}`
-			);
-	};
-
-	if (params === null) {
-		reply(null, null, NO_LINK_STR);
+	if (!params) {
+		inject(STATUS_CODE_BAD, CONTENT_TYPE_TEXT_PLAIN, NO_LINK_STR);
 		return;
 	}
 
-	const bufLink = queryString.parse(params).link;
+	const link = queryString.parse(params).link;
 
-	if (bufLink === undefined) {
-		reply(null, null, NO_LINK_STR);
+	if (!link) {
+		inject(STATUS_CODE_BAD, CONTENT_TYPE_TEXT_PLAIN, NO_LINK_STR);
 		return;
 	}
-
-	const link = queryString.parse(bufLink).text;
-
-	if (link === undefined) {
-		reply(null, null, NO_LINK_STR);
-		return;
-	}
-
-	removeClonedRepo().then(() => {}, () => {});
 
 	/* eslint-disable new-cap */
 
-	git.Clone(link, REPO_NAME).then(
-		(_) => {
-			log(REPO_CLONED_STR);
-			outString += "cloned: true\n";
+	const cloneReq = () => {
+		git.Clone(link, REPO_NAME).then(
+			(_) => {
+				log(REPO_CLONED_STR);
+				inject(STATUS_CODE_OK, CONTENT_TYPE_TEXT_PLAIN, "cloned: true");
+			},
 
-			request({
-				uri:     COMPILE_URL,
-				method:  POST_STR,
-				body:    REPO_NAME,
-				timeout: REDIRECT_TIMEOUT
-			}, reply);
-		},
-
-		(error) => {
-			log(`Repository has not been cloned. ${error}.`);
-			inject(STATUS_CODE_BAD, CONTENT_TYPE_TEXT_PLAIN, `${outString}cloned: false (${error})\n`);
-		}
-	);
+			(error) => {
+				log(`Repository has not been cloned. ${error}.`);
+				inject(`cloned: false (${error})`);
+			}
+		);
+	};
 
 	/* eslint-enable new-cap */
+
+	removeClonedRepo().then(cloneReq, cloneReq);
 };
 
 /**

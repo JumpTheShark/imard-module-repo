@@ -17,6 +17,7 @@ const
 	express       = require("express"),
 	url           = require("url"),
 	log           = require("../self_modules/logger/logger").log,
+	constants     = require("./constants"),
 	config        = require("./GlobalConfiguraition").config;
 
 /***
@@ -25,9 +26,12 @@ const
  * @since < 10.16.16
  */
 const
-	ENCODING              = "utf8",
-	DATA_LISTENER_STR     = "data",
-	END_LISTENER_STR      = "end";
+	ENCODING                = "utf8",
+	DATA_LISTENER_STR       = "data",
+	END_LISTENER_STR        = "end",
+	STRING                  = "string",
+	STATUS_CODE_BAD         = constants.STATUS_CODE_BAD,
+	CONTEXT_TYPE_TEXT_PLAIN = constants.CONTENT_TYPE_TEXT_PLAIN;
 
 /**
  * Inject response generator. Generates an inject response function.
@@ -40,15 +44,20 @@ const injectResponseGenerator = (response) => {
 
 	/**
 	 * Response injector. Takes data to put it to the server response.
+	 * It is possible to shorten the response in case of error 400 with plain text:
+	 * give the string value to the statusCode as the error message.
 	 *
-	 * @param {string} statusCode response status code
+	 * @param {int} statusCode response status code
 	 * @param {string} contentType response content type
 	 * @param {string} body response body (null if is absent)
-	 * @return {null} nothing
+	 * @return {void} nothing
 	 * @since 21.16.16
 	 */
 	const injectResponse = (statusCode, contentType, body) => {
-		new InnerResponse(statusCode, contentType, body).inject(response);
+		if (typeof statusCode === STRING)
+			new InnerResponse(STATUS_CODE_BAD, CONTEXT_TYPE_TEXT_PLAIN, statusCode).inject(response);
+		else
+			new InnerResponse(statusCode, contentType, body).inject(response);
 	};
 
 	return injectResponse;
@@ -71,7 +80,7 @@ const serverGen = (route, handle) => {
 	 *
 	 * @param {object} request server request
 	 * @param {object} response server response
-	 * @return {null} nothing
+	 * @return {void} nothing
 	 * @since < 10.16.16
 	 */
 	const processor = (request, response) => {
@@ -117,7 +126,7 @@ const serverGen = (route, handle) => {
  *
  * @param {function} route router function to parse the url
  * @param {object} handle object with request handlers
- * @return {null} nothing
+ * @return {void} nothing
  * @since < 10.16.16
  */
 const start = (route, handle) => {
@@ -136,5 +145,5 @@ exports = module.exports = {
 	injectResponseGenerator : injectResponseGenerator,
 	start                   : start,
 	serverGen               : serverGen,
-	PORT                    : config.getPort() /*$test$*/
+  	PORT                    : config.getPort() /*$test$*/
 };

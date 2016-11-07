@@ -29,8 +29,4 @@ describe("Server", () => {
 		expect(server.PORT).not.to.be.an("undefined");
 		expect(server.PORT).to.equal(PORT);
 	});
-
-	it("does not crash when sending huge data", () => {
-		//expect().not.to.be.an("undefined"); TODO test
-	});
 });

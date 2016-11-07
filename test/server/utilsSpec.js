@@ -8,29 +8,21 @@ const
 	assert    = require("assert");
 
 const clearCloned = () =>
-	new Promise((resolve, reject) => {
+	new Promise((resolve, reject) =>
 		exec(constants.COMMAND_RM_R + " " + constants.CLONED_REPO_FOLDER_NAME, (_, __, err) => {
 			resolve();
-		});
-	});
+		}));
 
 const clearBuilt = () =>
-	new Promise((resolve, reject) => {
+	new Promise((resolve, reject) =>
 		exec(constants.COMMAND_RM_R + " " + constants.BUILT_REPO_FOLDER_NAME, (_, __, err) => {
 			resolve();
-		});
-	});
+		}));
 
 const clearAll = () =>
-	new Promise((resolve, reject) => {
-		clearCloned().then(
-			() => {
-				clearBuilt().then(resolve, resolve);
-			},
-			() => {
-				clearBuilt().then(resolve, resolve);
-			});
-	});
+	new Promise((resolve, reject) => clearCloned()
+		.then(clearBuilt, clearBuilt)
+		.then(resolve, resolve));
 
 describe("Utility", () => {
 	describe("remove cloned repo", () => {
@@ -91,11 +83,11 @@ describe("Utility", () => {
 
 	describe("remove cloned and built repo", () => {
 		beforeEach((done) => {
-			clearAll().then(done, done);
+			clearAll().then(() => { console.log("HERE1"); done(); }, () => { console.log("HERE2"); done(); });
 		});
 
 		afterEach((done) => {
-			clearAll().then(done, done);
+			clearAll().then(() => { console.log("HERE3"); done(); }, () => { console.log("HERE4"); done(); });
 		});
 
 		it("removes the folders with cloned and built repo", (done) => {
@@ -142,8 +134,8 @@ describe("Utility", () => {
 			global.config.setMode(global.MODE_TEST);
 		});
 
-		after(() => {
-			global.config.setMode(global.MODE_DEFAULT);
+		before(() => {
+			global.config.setMode(global.MODE_TEST);
 		});
 
 		it("returns JSON data when the necessary file exist", (done) => {

@@ -14,9 +14,10 @@
  */
 const
 	requestStart         = require("./start").start,
-	requestCloneRedirect = require("./cloneRedirect").cloneRedirect,
+	requestUploadModule  = require("./uploadModule").uploadModule,
 	requestClone         = require("./clone").clone,
-	requestCompile       = require("./compile").compile;
+	requestCompile       = require("./compile").compile,
+	requestRegister      = require("./register").register;
 
 /**
  * Exports.
@@ -25,7 +26,8 @@ const
  */
 exports = module.exports = {
 	start                   : requestStart,
-	cloneRedirect           : requestCloneRedirect,
+	uploadModule            : requestUploadModule,
 	clone                   : requestClone,
-	compile                 : requestCompile
+	compile                 : requestCompile,
+	register                : requestRegister
 };

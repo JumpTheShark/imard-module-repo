@@ -37,9 +37,10 @@ const handle = {
  */
 handle.get ["/"]               = requestHandlers.start;
 handle.get ["/start"]          = requestHandlers.start;
-handle.post["/clone-redirect"] = requestHandlers.cloneRedirect;
+handle.post["/upload-module"]  = requestHandlers.uploadModule;
 handle.put ["/clone"]          = requestHandlers.clone;
 handle.post["/compile"]        = requestHandlers.compile;
+handle.post["/register"]       = requestHandlers.register;
 
 /**
  * Returns server with default route function and handlers.

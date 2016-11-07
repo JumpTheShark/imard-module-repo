@@ -21,8 +21,8 @@ describe("Outer handler object", () => {
 			expect(handle.get["/start"]).not.to.be.an("undefined");
 		});
 
-		it("clone-redirect", () => {
-			expect(handle.post["/clone-redirect"]).not.to.be.an("undefined");
+		it("upload-module", () => {
+			expect(handle.post["/upload-module"]).not.to.be.an("undefined");
 		});
 
 		it("clone", () => {
@@ -31,6 +31,10 @@ describe("Outer handler object", () => {
 
 		it("compile", () => {
 			expect(handle.post["/compile"]).not.to.be.an("undefined");
+		});
+
+		it("register", () => {
+			expect(handle.post["/register"]).not.to.be.an("undefined");
 		});
 	});
 });

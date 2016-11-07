@@ -10,8 +10,8 @@ describe("Request handlers'", () => {
 			expect(handlers.start).not.to.be.an("undefined");
 		});
 
-		it("clone-redirect binded", () => {
-			expect(handlers.cloneRedirect).not.to.be.an("undefined");
+		it("upload-module binded", () => {
+			expect(handlers.uploadModule).not.to.be.an("undefined");
 		});
 
 		it("clone binded", () => {
@@ -20,6 +20,10 @@ describe("Request handlers'", () => {
 
 		it("compile binded", () => {
 			expect(handlers.compile).not.to.be.an("undefined");
+		});
+
+		it("register binded", () => {
+			expect(handlers.register).not.to.be.an("undefined");
 		});
 	});
 });

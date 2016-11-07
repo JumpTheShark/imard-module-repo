@@ -33,7 +33,7 @@ const
 	COMMAND_CAT    = constants.COMMAND_CAT,
 	CLONED_FOLDER  = constants.CLONED_REPO_FOLDER_NAME,
 	BUILT_FOLDER   = constants.BUILT_REPO_FOLDER_NAME,
-	COPY_FROM_PATH = "./.built-repo/module/",
+	COPY_FROM_PATH = "/module/",
 	COPY_TO_PATH   = "./modules/",
 	FILE_PATTERN   = "module-[0-9]*",
 	FILTER_PATTERN = " | xargs -n 1 basename",
@@ -47,6 +47,7 @@ const
 
 /**
  * Removes folder (if exists) which contains the cloned repository.
+ * The targeted folder is a 'production' folder, that is why no means which configuration mode enabled.
  *
  * @return {Promise} whether the folder was removed [ resolve(), reject(string) ]
  * @since 25.10.16
@@ -63,6 +64,7 @@ const removeClonedRepo = () =>
 
 /**
  * Removes folder (if exists) which contains the built repository.
+ * The targeted folder is a 'production' folder, that is why no means which configuration mode enabled.
  *
  * @return {Promise} whether the folder was removed [ resolve(), reject(string) ]
  * @since 25.10.16
@@ -79,6 +81,7 @@ const removeBuiltRepo = () =>
 
 /**
  * Removes both folders (if exist) with cloned and built repository.
+ * The targeted folders are 'production' folders, that is why no means which configuration mode enabled.
  *
  * @return {Promise} whether at least one of two folders was removed [ resolve(), reject(string) ]
  * @since 25.10.16
@@ -86,24 +89,11 @@ const removeBuiltRepo = () =>
 const removeClonedAndBuiltRepo = () =>
 	new Promise((resolve, reject) => {
 		removeClonedRepo().then(
-			() => {
-				removeBuiltRepo().then(
-					() => {
-						resolve();
-					},
-					() => {
-						resolve();
-					}
-				);
-			},
+			() => removeBuiltRepo().then(resolve, () => resolve()),
 			(err1) => {
 				removeBuiltRepo().then(
-					() => {
-						resolve();
-					},
-					(err2) => {
-						reject(`${err1} | ${err2}`);
-					}
+					resolve,
+					(err2) => reject(`${err1} | ${err2}`)
 				);
 			});
 	});
@@ -116,7 +106,7 @@ const removeClonedAndBuiltRepo = () =>
  */
 const clonedModuleName = () =>
 	new Promise((resolve, reject) => {
-		exec(`${COMMAND_LS} ${COPY_FROM_PATH}${FILE_PATTERN}${FILTER_PATTERN}`, (_, out, err) => {
+		exec(`${COMMAND_LS} ${config.getBuiltRepoPath() + COPY_FROM_PATH}${FILE_PATTERN}${FILTER_PATTERN}`, (_, out, err) => {
 			if (err)
 				reject(err);
 
@@ -136,7 +126,7 @@ const pickModuleData = () =>
 			(moduleName) => {
 				const module = moduleName + HTML_HEADER;
 
-				exec(`${COMMAND_COPY} ${COPY_FROM_PATH}${module} ${COPY_TO_PATH}${module}`, (__, out2, err2) => {
+				exec(`${COMMAND_COPY} ${config.getBuiltRepoPath() + COPY_FROM_PATH}${module} ${COPY_TO_PATH}${module}`, (__, out2, err2) => {
 					if (err2)
 						reject(err2);
 
