@@ -36,12 +36,12 @@ const
 	BUILT_FOLDER    = constants.BUILT_REPO_FOLDER_NAME,
 	STATUS_CODE_BAD = constants.STATUS_CODE_BAD,
 	TEXT_PLAIN      = constants.TEXT_PLAIN,
+	MONGO_DB        = constants.DB_ADDRESS,
 	STRING          = "string",
 	COPY_FROM_PATH  = "/module/",
 	COPY_TO_PATH    = "./modules/",
 	FILE_PATTERN    = "module-[0-9]*",
 	FILTER_PATTERN  = " | xargs -n 1 basename",
-	MONGO_DB        = "mongodb://localhost:27017/imard-module-db",
 	MODULE_JSON     = "module.json",
 	HTML_HEADER     = ".html",
 	DB_COLLECTION   = "modules",
@@ -166,7 +166,7 @@ const pickModuleJSON = () =>
 const addModuleToDB = (value) =>
 	new Promise((resolve, reject) => {
 		co(function *() {
-			const db = yield MongoClient.connect(MONGO_DB);
+			const db = yield MongoClient.connect(config.getTestConfig().getDatabaseAddress());
 
 			log(DB_CONNECTED);
 

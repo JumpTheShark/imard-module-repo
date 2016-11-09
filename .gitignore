@@ -54,3 +54,4 @@ docs
 
 # script for generating JSDOC documentation
 jsdoc
+jsdoc_conf

@@ -12,7 +12,9 @@
  *
  * @since 28.10.16
  */
-const constants = require("./constants");
+const
+	constants   = require("./constants"),
+	testConfigs = require("./TestConfiguration").configs;
 
 /***
  * Constants.
@@ -23,6 +25,11 @@ const
 	MODE_PRODUCTION             = 0,
 	MODE_TEST                   = 1,
 	MODE_DEFAULT                = MODE_PRODUCTION,
+
+	TEST_MODE_NORMAL            = 0,
+	TEST_MODE_INVALID_DB        = 1,
+	TEST_MODE_DEFAULT           = TEST_MODE_NORMAL,
+
 	PORT_PRODUCTION             = constants.PORT,
 	PORT_TEST                   = constants.TEST_PORT,
 	PORT_DEFAULT                = PORT_PRODUCTION,
@@ -32,7 +39,6 @@ const
 	BUILT_REPO_PATH_PRODUCTION  = constants.BUILT_REPO_FOLDER_NAME,
 	BUILT_REPO_PATH_TEST        = constants.TEST_BUILT_REPO_FOLDER_NAME,
 	BUILT_REPO_PATH_DEFAULT     = BUILT_REPO_PATH_PRODUCTION;
-
 
 /**
  * Global configuration class.
@@ -54,10 +60,12 @@ const GlobalConfig = class {
 		this.builtRepoPath = BUILT_REPO_PATH_DEFAULT;
 
 		this.mode = MODE_DEFAULT;
+		this.testMode = testConfigs[TEST_MODE_DEFAULT];
 	}
 
 	/**
 	 * Sets the configuration mode.
+	 * Mode enumeration is included in the exports.
 	 *
 	 * @param {int} mode configuration mode
 	 * @return {void} nothing
@@ -85,6 +93,22 @@ const GlobalConfig = class {
 	}
 
 	/**
+	 * Sets the configuration testing mode.
+	 * By testing mode determines testing configuration.
+	 * Testing mode enumeration is included in the exports.
+	 *
+	 * @param {int} testMode configuration testing mode
+	 * @return {void} nothing
+	 * @since 09.11.16
+	 */
+	setTestMode (testMode) {
+		if (!testConfigs[testMode])
+			throw new Error(`invalid configuration test mode: ${testMode}`);
+
+		this.testMode = testConfigs[testMode];
+	}
+
+	/**
 	 * Returns the configuration mode.
 	 *
 	 * @return {int} configuration mode
@@ -92,6 +116,16 @@ const GlobalConfig = class {
 	 */
 	getMode () {
 		return this.mode;
+	}
+
+	/**
+	 * Returns the database http address.
+	 *
+	 * @return {string} database address
+	 * @since 09.11.16
+	 */
+	getDBAddress () {
+		return this.mode === MODE_TEST ? this.testMode.getDBAddress() : constants.DB_ADDRESS;
 	}
 
 	/**
@@ -139,8 +173,13 @@ const globalConfig = new GlobalConfig();
  * @since 28.10.16
  */
 exports = module.exports = {
-	config          : globalConfig,
-	MODE_PRODUCTION : MODE_PRODUCTION,
-	MODE_TEST       : MODE_TEST,
-	MODE_DEFAULT    : MODE_DEFAULT
+	config               : globalConfig,
+
+	MODE_PRODUCTION      : MODE_PRODUCTION,
+	MODE_TEST            : MODE_TEST,
+	MODE_DEFAULT         : MODE_DEFAULT,
+
+	TEST_MODE_NORMAL     : TEST_MODE_NORMAL,
+	TEST_MODE_INVALID_DB : TEST_MODE_INVALID_DB,
+	TEST_MODE_DEFAULT    : TEST_MODE_DEFAULT
 };
