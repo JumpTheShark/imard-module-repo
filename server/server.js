@@ -26,12 +26,12 @@ const
  * @since < 10.16.16
  */
 const
-	ENCODING                = "utf8",
-	DATA_LISTENER_STR       = "data",
-	END_LISTENER_STR        = "end",
-	STRING                  = "string",
-	STATUS_CODE_BAD         = constants.STATUS_CODE_BAD,
-	CONTEXT_TYPE_TEXT_PLAIN = constants.CONTENT_TYPE_TEXT_PLAIN;
+	ENCODING          = "utf8",
+	DATA_LISTENER_STR = "data",
+	END_LISTENER_STR  = "end",
+	STRING            = "string",
+	STATUS_CODE_BAD   = constants.STATUS_CODE_BAD,
+	TEXT_PLAIN        = constants.TEXT_PLAIN;
 
 /**
  * Inject response generator. Generates an inject response function.
@@ -55,7 +55,7 @@ const injectResponseGenerator = (response) => {
 	 */
 	const injectResponse = (statusCode, contentType, body) => {
 		if (typeof statusCode === STRING)
-			new InnerResponse(STATUS_CODE_BAD, CONTEXT_TYPE_TEXT_PLAIN, statusCode).inject(response);
+			new InnerResponse(STATUS_CODE_BAD, TEXT_PLAIN, statusCode).inject(response);
 		else
 			new InnerResponse(statusCode, contentType, body).inject(response);
 	};
@@ -145,5 +145,5 @@ exports = module.exports = {
 	injectResponseGenerator : injectResponseGenerator,
 	start                   : start,
 	serverGen               : serverGen,
-  	PORT                    : config.getPort() /*$test$*/
+       	PORT                    : config.getPort() /*$test$*/
 };

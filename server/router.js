@@ -13,8 +13,9 @@
  * @since < 10.16.16
  */
 const
-	log           = require("../self_modules/logger/logger").log,
-	constants     = require("./constants");
+	log       = require("../self_modules/logger/logger").log,
+	qs        = require("querystring"),
+	constants = require("./constants");
 
 /***
  * Constants.
@@ -23,8 +24,11 @@ const
  */
 const
 	CODE_NOT_FOUND     = constants.STATUS_CODE_NOT_FOUND,
+	CODE_BAD           = constants.STATUS_CODE_BAD,
 	TEXT_PLAIN         = constants.TEXT_PLAIN,
 	NOT_FOUND_BODY_STR = `${CODE_NOT_FOUND} Not found`,
+	NULL_PARAMS_STR    = "null query parameters",
+	BAD_PARAMS_STR     = "bad query parameters",
 	FUNCTION_STR       = "function",
 	GET_STR            = "get",
 	POST_STR           = "post",
@@ -63,7 +67,17 @@ const route = (handle, _method, pathname, inject, params, postData) => {
 			handle[method][pathname](inject, postData);
 			break;
 		case PUT_STR:
-			handle[method][pathname](inject, params);
+			if (params === null)
+				inject(CODE_BAD, TEXT_PLAIN, NULL_PARAMS_STR);
+			else {
+				const _params = qs.parse(params);
+
+				if (_params === null)
+					inject(CODE_BAD, TEXT_PLAIN, BAD_PARAMS_STR);
+				else
+					handle[method][pathname](inject, _params);
+			}
+
 			break;
 		default:
 		}

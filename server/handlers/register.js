@@ -23,13 +23,12 @@ const
  * @since 06.11.16
  */
 const
-	CONTENT_TYPE_TEXT_PLAIN = constants.CONTENT_TYPE_TEXT_PLAIN,
-	STATUS_CODE_BAD         = constants.STATUS_CODE_BAD,
-	STATUS_CODE_OK          = constants.STATUS_CODE_OK,
-	REGISTER_COMPLETED_STR  = "module has been registered.",
-	PICKING_ERROR_STR       = "error while picking module file into the storage",
-	GET_JSON_ERROR_STR      = "error while getting cloned module JSON",
-	PUT_DB_ERROR_STR        = "error while inserting built module file to the data base";
+	TEXT_PLAIN             = constants.TEXT_PLAIN,
+	STATUS_CODE_OK         = constants.STATUS_CODE_OK,
+	REGISTER_COMPLETED_STR = "module has been registered.",
+	PICKING_ERROR_STR      = "error while picking module file into the storage",
+	GET_JSON_ERROR_STR     = "error while getting cloned module JSON",
+	PUT_DB_ERROR_STR       = "error while inserting built module file to the data base";
 
 /**
  * The request itself. Saves useful module data and registers module in the database.
@@ -48,7 +47,7 @@ const register = (inject, _) => {
 			(moduleJSON) => utils.addModuleToDB(moduleJSON),
 			() => inject(GET_JSON_ERROR_STR))
 		.then(
-			() => inject(STATUS_CODE_OK, CONTENT_TYPE_TEXT_PLAIN, REGISTER_COMPLETED_STR),
+			() => inject(STATUS_CODE_OK, TEXT_PLAIN, REGISTER_COMPLETED_STR),
 			() => inject(PUT_DB_ERROR_STR));
 };
 

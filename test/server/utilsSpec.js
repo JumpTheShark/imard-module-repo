@@ -83,11 +83,11 @@ describe("Utility", () => {
 
 	describe("remove cloned and built repo", () => {
 		beforeEach((done) => {
-			clearAll().then(() => { console.log("HERE1"); done(); }, () => { console.log("HERE2"); done(); });
+			clearAll().then(done, done);
 		});
 
 		afterEach((done) => {
-			clearAll().then(() => { console.log("HERE3"); done(); }, () => { console.log("HERE4"); done(); });
+			clearAll().then(done, done);
 		});
 
 		it("removes the folders with cloned and built repo", (done) => {

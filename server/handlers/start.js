@@ -20,9 +20,9 @@ const constants = require("../constants");
  * @since < 10.16.16
  */
 const
-	CONTENT_TYPE_TEXT_HTML = constants.CONTENT_TYPE_TEXT_HTML,
-	STATUS_CODE_OK         = constants.STATUS_CODE_OK,
-	BODY                   =
+	TEXT_HTML      = constants.TEXT_HTML,
+	STATUS_CODE_OK = constants.STATUS_CODE_OK,
+	BODY           =
 		"<html>" +
 		"<head>" +
 		"<meta http-equiv='Content-Type' content='text/html;charset=UTF-8' />" +
@@ -45,7 +45,7 @@ const
  * @since < 10.16.16
  */
 const start = (inject) => {
-	inject(STATUS_CODE_OK, CONTENT_TYPE_TEXT_HTML, BODY);
+	inject(STATUS_CODE_OK, TEXT_HTML, BODY);
 };
 
 /**
@@ -55,5 +55,5 @@ const start = (inject) => {
  */
 exports = module.exports = {
 	start : start,
-                	BODY  : BODY /*$test$*/
+       	BODY  : BODY /*$test$*/
 };

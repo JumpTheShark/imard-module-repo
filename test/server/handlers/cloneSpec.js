@@ -26,7 +26,7 @@ describe("Request clone", () => {
 
 		before(() => {
 			global.config.setMode(global.MODE_TEST);
-			testServer = index.getDefaultServer().listen(constants.TEST_PORT);
+			testServer = index.getDefaultServer().listen(global.config.getPort());
 		});
 
 		after(() => {

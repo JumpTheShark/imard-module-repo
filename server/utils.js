@@ -13,13 +13,14 @@
  * @since 25.10.16
  */
 const
-	constants   = require("./constants"),
-	config      = require("./GlobalConfiguraition").config,
-	exec        = require("child_process").exec,
-	co          = require("co"),
-	assert      = require("assert"),
-	MongoClient = require("mongodb").MongoClient,
-	log         = require("../self_modules/logger/logger").log;
+	constants     = require("./constants"),
+	config        = require("./GlobalConfiguraition").config,
+	exec          = require("child_process").exec,
+	co            = require("co"),
+	assert        = require("assert"),
+	MongoClient   = require("mongodb").MongoClient,
+	log           = require("../self_modules/logger/logger").log,
+	InnerResponse = require("./InnerResponse");
 
 /***
  * Constants.
@@ -27,23 +28,26 @@ const
  * @since 25.10.16
  */
 const
-	COMMAND_RM_R   = constants.COMMAND_RM_R,
-	COMMAND_COPY   = constants.COMMAND_COPY,
-	COMMAND_LS     = constants.COMMAND_LS,
-	COMMAND_CAT    = constants.COMMAND_CAT,
-	CLONED_FOLDER  = constants.CLONED_REPO_FOLDER_NAME,
-	BUILT_FOLDER   = constants.BUILT_REPO_FOLDER_NAME,
-	COPY_FROM_PATH = "/module/",
-	COPY_TO_PATH   = "./modules/",
-	FILE_PATTERN   = "module-[0-9]*",
-	FILTER_PATTERN = " | xargs -n 1 basename",
-	MONGO_DB       = "mongodb://localhost:27017/imard-module-db",
-	MODULE_JSON    = "module.json",
-	HTML_HEADER    = ".html",
-	DB_COLLECTION  = "modules",
-	DB_MODULE_KEY  = "data",
-	DB_CONNECTED   = "Connected correctly to data base",
-	DB_EXITED      = "Exited from data base";
+	COMMAND_RM_R    = constants.COMMAND_RM_R,
+	COMMAND_COPY    = constants.COMMAND_COPY,
+	COMMAND_LS      = constants.COMMAND_LS,
+	COMMAND_CAT     = constants.COMMAND_CAT,
+	CLONED_FOLDER   = constants.CLONED_REPO_FOLDER_NAME,
+	BUILT_FOLDER    = constants.BUILT_REPO_FOLDER_NAME,
+	STATUS_CODE_BAD = constants.STATUS_CODE_BAD,
+	TEXT_PLAIN      = constants.TEXT_PLAIN,
+	STRING          = "string",
+	COPY_FROM_PATH  = "/module/",
+	COPY_TO_PATH    = "./modules/",
+	FILE_PATTERN    = "module-[0-9]*",
+	FILTER_PATTERN  = " | xargs -n 1 basename",
+	MONGO_DB        = "mongodb://localhost:27017/imard-module-db",
+	MODULE_JSON     = "module.json",
+	HTML_HEADER     = ".html",
+	DB_COLLECTION   = "modules",
+	DB_MODULE_KEY   = "data",
+	DB_CONNECTED    = "Connected correctly to data base",
+	DB_EXITED       = "Exited from data base";
 
 /**
  * Removes folder (if exists) which contains the cloned repository.
@@ -184,6 +188,30 @@ const addModuleToDB = (value) =>
 		});
 	});
 
+/**
+ * Returns a promise that calls a request and resolves/rejects after getting the response.
+ * Whether the response status code equals 400, reject branch is called, or resolve otherwise.
+ *
+ * @param {function} req request to call
+ * @param {string} arg (optional) argument, interpreted as postData [POST] or params [PUT]
+ * @return {Promise} promise, which calls a request and returns response in resolve/reject
+ * @since 07.11.16
+ */
+const requestAsync = (req, arg) =>
+	new Promise((resolve, reject) => {
+		const injectPromise = (statusCode, contentType, body) => {
+			if (typeof statusCode === STRING)
+				reject(new InnerResponse(STATUS_CODE_BAD, TEXT_PLAIN, statusCode));
+			else
+			if (statusCode === STATUS_CODE_BAD)
+				reject(new InnerResponse(statusCode, contentType, body));
+			else
+				resolve(new InnerResponse(statusCode, contentType, body));
+		};
+
+		req(injectPromise, arg);
+	});
+
 /***
  * Exports.
  *
@@ -196,5 +224,6 @@ exports = module.exports = {
 	clonedModuleName         : clonedModuleName,
 	pickModuleData           : pickModuleData,
 	pickModuleJSON           : pickModuleJSON,
-	addModuleToDB            : addModuleToDB
+	addModuleToDB            : addModuleToDB,
+	requestAsync             : requestAsync
 };

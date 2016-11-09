@@ -7,6 +7,13 @@
 
 "use strict";
 
+/***
+ * Imports.
+ *
+ * @since 07.11.16
+ */
+const constants = require("./constants");
+
 /**
  * Class that implements the described (in the file header) functionality.
  *
@@ -37,7 +44,11 @@ const InnerResponse = class {
 	 * @since 20.10.16
 	 */
 	inject (response) {
-		response.writeHead(this.statusCode, this.contentType);
+		const _contentType = {};
+
+		_contentType[constants.CONTENT_TYPE] = this.contentType;
+
+		response.writeHead(this.statusCode, _contentType);
 
 		if (this.body !== null)
 			response.write(this.body);

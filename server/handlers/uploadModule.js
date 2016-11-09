@@ -14,11 +14,14 @@
  * @since < 10.16.16
  */
 const
-	queryString = require("querystring"),
-	request     = require("request"),
-	constants   = require("../constants"),
-	global      = require("../GlobalConfiguraition");
-
+	queryString     = require("querystring"),
+	log             = require("../../self_modules/logger/logger").log,
+	cloneHandler    = require("./clone").clone,
+	compileHandler  = require("./compile").compile,
+	registerHandler = require("./register").register,
+	constants       = require("../constants"),
+	requestAsync    = require("../utils").requestAsync,
+	co              = require("co");
 
 /***
  * Constants.
@@ -26,28 +29,12 @@ const
  * @since < 10.16.16
  */
 const
-	REDIRECT_TIMEOUT        = constants.REDIRECT_TIMEOUT,
-	CONTENT_TYPE_TEXT_PLAIN = constants.CONTENT_TYPE_TEXT_PLAIN,
-	STATUS_CODE_OK          = constants.STATUS_CODE_OK,
-	STATUS_CODE_BAD         = constants.STATUS_CODE_BAD,
-	LINK_INPUT_FIELD_NAME   = constants.LINK_INPUT_FIELD_NAME,
-	PUT_STR                 = "PUT",
-	POST_STR                = "POST",
-	NO_LINK_STR             = "no link given to clone",
-	INAPPROPRIATE_LINK_STR  = "link given in inappropriate way",
-	REPO_NAME               = constants.CLONED_REPO_FOLDER_NAME;
-
-/**
- * Url redirect string functions.
- * As the port may be changed in the process of working, there are functions instead of constants.
- *
- * @return {string} string with redirect address
- * @since 07.11.16
- */
-const
-	cloneURL    = () => `http://localhost:${global.config.getPort()}/clone`,
-	compileURL  = () => `http://localhost:${global.config.getPort()}/compile`,
-	registerURL = () => `http://localhost:${global.config.getPort()}/register`;
+	TEXT_PLAIN             = constants.TEXT_PLAIN,
+	STATUS_CODE_OK         = constants.STATUS_CODE_OK,
+	LINK_INPUT_FIELD_NAME  = constants.LINK_INPUT_FIELD_NAME,
+	REPO_NAME              = constants.CLONED_REPO_FOLDER_NAME,
+	NO_LINK_STR            = "no link given to clone",
+	INAPPROPRIATE_LINK_STR = "link given in inappropriate way";
 
 /**
  * The request itself. Calls internally clone, compile and register requests.
@@ -58,56 +45,26 @@ const
  * @since < 10.16.16
  */
 const uploadModule = (inject, postData) => {
-	let outString = "";
-
 	if (!postData) {
-		inject(STATUS_CODE_BAD, CONTENT_TYPE_TEXT_PLAIN, NO_LINK_STR);
+		inject(NO_LINK_STR);
 		return;
 	}
 
 	const link = queryString.parse(postData)[LINK_INPUT_FIELD_NAME];
 
 	if (!link) {
-		inject(STATUS_CODE_BAD, CONTENT_TYPE_TEXT_PLAIN, INAPPROPRIATE_LINK_STR);
+		inject(INAPPROPRIATE_LINK_STR);
 		return;
 	}
 
-	request({
-		uri     : cloneURL(),
-		qs      : { link : link },
-		method  : PUT_STR,
-		timeout : REDIRECT_TIMEOUT
-	},
-	(err, resp, _) => {
-		if (!err && resp && resp.statusCode === STATUS_CODE_OK) {
-			outString += "cloned: true\n";
-
-			request({
-				uri:     compileURL(),
-				method:  POST_STR,
-				body:    REPO_NAME,
-				timeout: REDIRECT_TIMEOUT
-			},
-			(err2, resp2, body2) => {
-				if (!err2 && resp2 && resp2.statusCode === STATUS_CODE_OK) {
-					outString += "built: true\n";
-
-					request({
-						uri:     registerURL(),
-						method:  POST_STR,
-						timeout: REDIRECT_TIMEOUT
-					},
-					(err3, resp3, body3) => {
-						if (!err2 && resp2 && resp2.statusCode === STATUS_CODE_OK)
-							inject(STATUS_CODE_OK, CONTENT_TYPE_TEXT_PLAIN, outString + "registered: true");
-						else
-							inject(`${outString}registered: false ${body3}`);
-					});
-				} else
-					inject(`${outString}built: false ${body2 ? `(${body2})` : `(${err2})`}`);
-			});
-		} else
-			inject(`cloned: false (error: ${String(err)})`);
+	co(function *() {
+		yield requestAsync(cloneHandler, { link : link });
+		yield requestAsync(compileHandler, REPO_NAME);
+		yield requestAsync(registerHandler);
+		inject(STATUS_CODE_OK, TEXT_PLAIN, `cloned: true\nbuilt: true\nregistered: true`);
+	}).catch((err) => {
+		log(`error: ${JSON.stringify(err)}`);
+		inject(err.statusCode, err.contentType, err.body);
 	});
 };
 

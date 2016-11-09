@@ -25,11 +25,11 @@ const
  * @since < 10.16.16
  */
 const
-	CONTENT_TYPE_TEXT_PLAIN = constants.CONTENT_TYPE_TEXT_PLAIN,
-	STATUS_CODE_OK          = constants.STATUS_CODE_OK,
-	COMMAND_BUILD           = constants.COMMAND_BUILD,
-	BUILD_PATH              = constants.BUILT_REPO_FOLDER_NAME,
-	BUILD_COMPLETED_STR     = "build completed.";
+	TEXT_PLAIN          = constants.TEXT_PLAIN,
+	STATUS_CODE_OK      = constants.STATUS_CODE_OK,
+	COMMAND_BUILD       = constants.COMMAND_BUILD,
+	BUILD_PATH          = constants.BUILT_REPO_FOLDER_NAME,
+	BUILD_COMPLETED_STR = "build completed.";
 
 /**
  * The request itself. Creates useful data for the given new module (after cloning).
@@ -44,7 +44,7 @@ const compile = (inject, _) => {
 		exec(`${COMMAND_BUILD} ${config.getClonedRepoPath()} ${BUILD_PATH}`, (__, out, err) => {
 			if (!err) {
 				log(BUILD_COMPLETED_STR);
-				inject(STATUS_CODE_OK, CONTENT_TYPE_TEXT_PLAIN, BUILD_COMPLETED_STR);
+				inject(STATUS_CODE_OK, TEXT_PLAIN, BUILD_COMPLETED_STR);
 			} else
 				inject(`error: ${out}`);
 		});
